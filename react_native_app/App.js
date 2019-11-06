@@ -1,27 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
+import Header from './components/Header';
+import StartGameScreen from './screens/StartGameScreen';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
-export default function App() {
-  const [outputText, setOutputText]= useState('Open up App.js to start working on your app!')
+const App =()=> {
   return (
-    <View style={{padding: 50, flexDirection: 'row'}}>
-      <View style={{flexDirection:'row', justifyContent: 'space-between', alignItems: 'center'}}>
-        <TextInput 
-         palceholder="Course goal"
-         style={{width: '80%', borderBottomColor: 'black', borderBottomWidth: 1, padding: 10}}/>
-        <Button title="ADD"/>
-      </View>
-       
+    <View style={styles.screen}>
+     <Header title="Guess a Number" />
+     <StartGameScreen />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  screen: {
+    flex: 1,  
+  }
   
 });
+
+export default App;
