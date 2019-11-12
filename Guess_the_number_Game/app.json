@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "Learning react native",
-    "slug": "react_native_app",
+    "name": "RN Guide",
+    "slug": "rn-complete-guide",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
+    "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
       "android",
