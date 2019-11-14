@@ -1,21 +1,20 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import styled from 'styled-components';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const CategoriesScreen = () => {
+const CategoriesScreen = props => {
   return (
-    <Categories>
-      <Text></Text>
-    </Categories>
-  )
-}
+    <View style={styles.screen}>
+      <Text>The Categories Screen!</Text>
+    </View>
+  );
+};
 
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});
 
-const Categories = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center; 
-`;
-
-
-export default CategoriesScreen
+export default CategoriesScreen;
