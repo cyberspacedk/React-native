@@ -395,7 +395,12 @@ useEffect(()=> {
 ```
 
 💡 **Таким же способом получая актуальные замеры ширины и высоты рендерить определенную разметку по условию.**
-  
+
+### Platform_API
+
+У `react-native` также есть свой API для определения устройства на котором запускается приложения. В зависимовти от устройтсва может применяться разный код. Например стилевое офрмление или лейаут.
+
+[platform API...](https://facebook.github.io/react-native/docs/platform-specific-code#platform-module)
 
 ### Orientation
 
@@ -427,4 +432,101 @@ import {KeyboardAvoidingView} from 'react-native';
 <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
   ... your UI ...
 </KeyboardAvoidingView>;
+```
+
+## Navigation
+
+Для навигации будем использовать `react-navigation` и `react-navigation-stack`
+
+В корне проекта создадим директорию `navigation` в которой файл который будет управлять навигацией приложения 
+
+`createStackNavigator` создает стопку экранов, передаем объект, значеня полей это наши экраны
+
+[createStackNavigator API...](https://reactnavigation.org/docs/en/stack-navigator.html)
+
+```js
+// MealsNavigator.js
+
+import {createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+
+import CategoriesScreen from '../screens/CategoriesScreen';
+import CategoryMealsScreen from '../screens/CategoryMealsScreen';
+import MealDetailScreen from '../screens/MealDetailScreen';
+
+const MealsNavigator = createStackNavigator({
+  Categories: CategoriesScreen,
+  CategoryMeals: {
+    screen: CategoryMealsScreen
+  },
+  MealDetail: MealDetailScreen
+});
+
+export default createAppContainer(MealsNavigator);
+
+```
+
+Файл `App` возвращает `MealsNavigator` который оборачиает приложения и передает свой контекст всем компонентам приложения, который доступен через `props`  
+
+```js
+import React, { useState } from 'react';
+import { Text, View } from 'react-native';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
+
+import MealsNavigator from './navigation/MealsNavigator';
+
+const fetchFonts = () => {
+  return Font.loadAsync({
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+  });
+};
+
+export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  if (!fontLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+      />
+    );
+  }
+
+  return <MealsNavigator />;
+} 
+```
+
+Навигация по экранам осуществляется вызовом `navigation.navigate()` в качестве аргумента передаем 
+
+- `props.navigation.navigate({routeName: 'SomeIdentifier'})` 
+или короткий вариант
+- `props.navigation.navigate('SomeIdentifier')`
+
+```js
+<Button title="Go to Meals" onPress={()=> props.navigation.navigate('CategoryMeals')}/>   
+```
+
+Методы `navigation`
+
+- navigate - направляет на экран, не создавая слоя на стопке
+- push - ложит на стопку экран
+- goBack - возвращает на предыдущий слой стопки
+- pop - аналог  goBack
+- popToTop - возврат на Home
+- replace - заменяет слой на стопке
+
+
+У компоненты есть статическое свойство `navigationOptions` которое принимает различные опции
+
+```js
+CategoriesScreen.navigationOptions = {
+  headerTitle: 'Meal Categories', 
+  headerStyle: {
+    backgroundColor: Colors.primaryColor,
+  },
+  headerTintColor: 'yellow' 
+}
 ```

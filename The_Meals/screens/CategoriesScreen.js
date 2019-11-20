@@ -1,25 +1,37 @@
 import React from 'react'; 
 import styled from 'styled-components';
 import {CATEGORIES} from '../data/dummy-data.js';
+import {View, Platform} from 'react-native';
+import Colors from '../constants/Colors'
 
 
-const renderGridItem = (itemData)=> (
-    <Container>
-      <Text>{itemData.item.title}</Text>  
-      {/* <Button title="Go to Meals" onPress={()=> props.navigation.navigate('CategoryMeals')}/>   */}
-    </Container>
-)
 
 
 const CategoriesScreen = props => {
+
+  const renderGridItem = (itemData)=> (
+    <Container onPress={()=> {
+      props.navigation.navigate('CategoryMeals', {categoryId: itemData.item.id})
+    }}>
+      <View>
+        <Text>{itemData.item.title}</Text>   
+      </View>
+    </Container>
+  )
   return (
     <FlatList keyExtractor={item=>item.id} data={CATEGORIES} renderItem={renderGridItem} numColumns={2}/> 
   );
 };
 
+CategoriesScreen.navigationOptions = {
+  headerTitle: 'Meal Categories', 
+  headerStyle: {
+    backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+  },
+  headerTintColor: 'yellow' 
+}
 
-
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   display: flex;
   flex:1;
   justify-content: center;
@@ -35,3 +47,4 @@ const FlatList = styled.FlatList``;
 
 
 export default CategoriesScreen;
+  
