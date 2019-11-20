@@ -436,6 +436,8 @@ import {KeyboardAvoidingView} from 'react-native';
 
 ## Navigation
 
+[navigation API ...](https://reactnavigation.org/docs/en/navigation-prop.html)
+
 Для навигации будем использовать `react-navigation` и `react-navigation-stack`
 
 В корне проекта создадим директорию `navigation` в которой файл который будет управлять навигацией приложения 
@@ -529,4 +531,49 @@ CategoriesScreen.navigationOptions = {
   },
   headerTintColor: 'yellow' 
 }
+```
+
+#### Проброс данных в другой компонент. 
+
+ Чтобы пробросить данные из одного компонента в другой при переходе, нужно передать вторым параметром в метод **navigate** объект, в который помещаем данные `props.navigation.navigate('ScreenTo', { key: value })`
+
+ Ситнаксис 
+
+**длинный**
+ - navigation.navigate({
+    routeName: 'ScreenTo',
+    params: {
+      key: value
+    }
+  })
+
+**короткий**
+- props.navigation.navigate('ScreenTo', { key: value })
+
+```js 
+  <Container onPress={()=> {
+      props.navigation.navigate('CategoryMeals', {categoryId: itemData.item.id})
+    }}> 
+    ...code     
+```
+
+После этого данные достаем в компоненте куда пережли вызовом **getParam**  в который передаем нужный `key` 
+`props.navigation.getParam('categoryId')` 
+
+[getParams read ...](https://reactnavigation.org/docs/en/navigation-prop.html#getparam-get-a-specific-param-value-with-a-fallback)
+
+
+```js
+const CategoryMealScreen = props => {
+ const catId =  props.navigation.getParam('categoryId') ;
+ const selectedCategory = CATEGORIES.find(item=> item.id === catId);
+  return (
+    <Container  >
+      <Text>Category Meal Screen!</Text> 
+      <Text>{selectedCategory.title}</Text>
+      <Button title="Go to Meals" onPress={()=> props.navigation.navigate('MealDetail')}/>
+      <Button title="Go Back" onPress={()=> props.navigation.pop()}/>
+    </Container>
+  );
+};
 ```
