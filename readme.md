@@ -22,8 +22,13 @@ React Native Abstract
   
 # Responsive issues
 - [Dimensions API](#Dimensions_API)
+- [Platform API](#Platform_API)
 - [Orientation](#Orientation) 
 - [KeyboardAvoidingView](#KeyboardAvoidingView)
+
+# Navigation
+- [Navigation API](#Navigation_API)
+- [Data transfer](#Data_transfer)
 *** 
 
 ## Container_components
@@ -434,7 +439,7 @@ import {KeyboardAvoidingView} from 'react-native';
 </KeyboardAvoidingView>;
 ```
 
-## Navigation
+## Navigation_API
 
 [navigation API ...](https://reactnavigation.org/docs/en/navigation-prop.html)
 
@@ -532,8 +537,9 @@ CategoriesScreen.navigationOptions = {
   headerTintColor: 'yellow' 
 }
 ```
+## Data_transfer
 
-#### Проброс данных в другой компонент. 
+### Проброс данных в другой компонент. 
 
  Чтобы пробросить данные из одного компонента в другой при переходе, нужно передать вторым параметром в метод **navigate** объект, в который помещаем данные `props.navigation.navigate('ScreenTo', { key: value })`
 
@@ -557,7 +563,7 @@ CategoriesScreen.navigationOptions = {
     ...code     
 ```
 
-После этого данные достаем в компоненте куда пережли вызовом **getParam**  в который передаем нужный `key` 
+После этого данные достаем в компоненте куда перешли вызовом **getParam**  в который передаем нужный `key` 
 `props.navigation.getParam('categoryId')` 
 
 [getParams read ...](https://reactnavigation.org/docs/en/navigation-prop.html#getparam-get-a-specific-param-value-with-a-fallback)
@@ -565,6 +571,7 @@ CategoriesScreen.navigationOptions = {
 
 ```js
 const CategoryMealScreen = props => {
+  // передаем данные
  const catId =  props.navigation.getParam('categoryId') ;
  const selectedCategory = CATEGORIES.find(item=> item.id === catId);
   return (
@@ -576,4 +583,21 @@ const CategoryMealScreen = props => {
     </Container>
   );
 };
+```
+
+### Динамический проброс данных 
+
+В случае когда нужно использовать данные, которые пришли с другой страницы в `navigationOptions`, нужно воспользоваться формой вызова **navigationOptions** не как объекта , а как функции которая возвращает объект. Аргументом этой функции будет объект с контекстом. Вызывав привычный `getParam()` получаем данные, извлекаем нужную информацию и сетим в возвращаемый объект.
+
+```js
+CategoryMealScreen.navigationOptions = (navData) => { 
+  const catId = navData.navigation.getParam('categoryId');
+  const selectedCategory = CATEGORIES.find(item=> item.id === catId);
+  return {
+    headerTitle: selectedCategory.title,
+    headerStyle: {
+      backgroundColor: 'pink'
+    }
+  }
+}
 ```
