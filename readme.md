@@ -591,8 +591,10 @@ const CategoryMealScreen = props => {
 
 ```js
 CategoryMealScreen.navigationOptions = (navData) => { 
+
   const catId = navData.navigation.getParam('categoryId');
   const selectedCategory = CATEGORIES.find(item=> item.id === catId);
+  
   return {
     headerTitle: selectedCategory.title,
     headerStyle: {
