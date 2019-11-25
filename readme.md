@@ -29,6 +29,8 @@ React Native Abstract
 # Navigation
 - [Navigation API](#Navigation_API)
 - [Data transfer](#Data_transfer)
+- [Dynamic Data Transfer](#Dynamic_Data_Transfer)
+- [Default Navigation Options](#defaultNavigationOptions)
 *** 
 
 ## Container_components
@@ -585,7 +587,9 @@ const CategoryMealScreen = props => {
 };
 ```
 
-### Динамический проброс данных 
+### Dynamic_Data_Transfer
+
+Динамический проброс данных 
 
 В случае когда нужно использовать данные, которые пришли с другой страницы в `navigationOptions`, нужно воспользоваться формой вызова **navigationOptions** не как объекта , а как функции которая возвращает объект. Аргументом этой функции будет объект с контекстом. Вызывав привычный `getParam()` получаем данные, извлекаем нужную информацию и сетим в возвращаемый объект.
 
@@ -603,3 +607,89 @@ CategoryMealScreen.navigationOptions = (navData) => {
   }
 }
 ```
+
+### defaultNavigationOptions
+
+Настройки по умолчанию.
+
+В файле навигаторе, для каждого экрана можно определять настройки  `navigationOptions`. 
+
+```js
+const MealsNavigator = createStackNavigator({
+  Categories: {
+    screen: CategoriesScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+      },
+      headerTintColor: 'yellow' 
+    }
+  },
+  CategoryMeals: {
+    screen: CategoryMealsScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+      },
+      headerTintColor: 'yellow' 
+    }
+  },
+  MealDetail: MealDetailScreen
+}});
+```
+
+Для того чтобы не дублировать одинаковые настройки для экранов, можно определить зачения по умолчанию.
+
+Для этого **вторым** параметром в `createStackNavigator` передаем объект с полем `defaultNavigationOptions`, где укажем значения которые применятся ко всем эеранам.
+
+```js
+const MealsNavigator = createStackNavigator({
+  Categories:  CategoriesScreen,
+  CategoryMeals:  CategoryMealsScreen,
+  MealDetail: MealDetailScreen
+}, {
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+    },
+    headerTintColor: 'yellow' 
+  }
+}); 
+```
+
+ЗНАЧЕНИЯ `defaultNavigationOptions` БУДЕТ ПЕРЕЗАПИСАНЫ если передать свойства в статическом методе `navigationOptions`
+
+```js 
+CategoryMealScreen.navigationOptions = {   
+    headerTitle: selectedCategory.title,
+    headerStyle: {
+      backgroundColor: 'pink'
+    } 
+}
+```
+Таким образом, удобно выделить обше настроки для экранов в файле-навигации, а для каждого экрана в отдельности передавать в `navigationOptions`
+
+
+### InitialRouteName
+
+Также в объекте настроек который передается вторым параметром в `createStackNavigator`, кроме зачений по умолчанию можно передавать значение для дефолтной страницы
+
+Для этого прописываем поле `initialRouteName`, значением которого будет тот экран который необходим 
+
+```js
+const MealsNavigator = createStackNavigator({
+  Categories: CategoriesScreen, 
+  CategoryMeals: CategoryMealsScreen, 
+  MealDetail: MealDetailScreen
+}, {
+  // экран по умолчанию
+  initialRouteName: 'MealDetail',
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+    },
+    headerTintColor: 'yellow' 
+  }
+});
+```
+ 
