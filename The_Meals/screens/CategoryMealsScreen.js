@@ -1,13 +1,16 @@
 import React from 'react'; 
 import styled from 'styled-components';
-import {CATEGORIES} from '../data/dummy-data.js';
+import {CATEGORIES, MEALS} from '../data/dummy-data.js';
+import MealItem from '../components/MealItem'
 
 const CategoryMealScreen = props => { 
+  const renderMealItem = itemData=> <MealItem title={itemData.item.title} /> 
+  const catId = props.navigation.getParam('categoryId');
+  const displayedMeals = MEALS.filter(meal=> meal.categoryIds.indexOf(catId)>=0);
+
   return (
-    <Container  >
-      <Text>Category Meal Screen!</Text>  
-      <Button title="Go to Meals" onPress={()=> props.navigation.navigate('MealDetail')}/>
-      <Button title="Go Back" onPress={()=> props.navigation.pop()}/>
+    <Container>
+      <List data={displayedMeals} keyExtractor={(item,index)=>item.id} renderItem={renderMealItem}/>
     </Container>
   );
 };
@@ -30,10 +33,10 @@ const Container = styled.View`
   align-items: center;
 `;
 
- const Button = styled.Button`
-  
- `;
+ const Button = styled.Button` `;
 
- const Text = styled.Text``
+ const Text = styled.Text``;
+
+ const List = styled.FlatList``;
 
 export default CategoryMealScreen;
