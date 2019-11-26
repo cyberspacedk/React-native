@@ -28,9 +28,11 @@ React Native Abstract
 
 # Navigation
 - [Navigation API](#Navigation_API)
+- [Stack Navigator](#Stack_Navigator)
 - [Data transfer](#Data_transfer)
 - [Dynamic Data Transfer](#Dynamic_Data_Transfer)
 - [Default Navigation Options](#defaultNavigationOptions)
+- [Header buttons](#header_buttons)
 *** 
 
 ## Container_components
@@ -445,6 +447,8 @@ import {KeyboardAvoidingView} from 'react-native';
 
 [navigation API ...](https://reactnavigation.org/docs/en/navigation-prop.html)
 
+## Stack_Navigator 
+
 Для навигации будем использовать `react-navigation` и `react-navigation-stack`
 
 В корне проекта создадим директорию `navigation` в которой файл который будет управлять навигацией приложения 
@@ -693,3 +697,129 @@ const MealsNavigator = createStackNavigator({
 });
 ```
  
+ ### header_buttons
+ 
+Для навигации в хедере, поставим пакет
+
+[docs ...](https://github.com/vonovak/react-navigation-header-buttons#readme)
+
+```js
+npm i -S react-navigation-header-buttons
+```
+
+После установки пакета, создаем компонент кноки, которая нужна.
+
+Для этого нужно заимпортровать компонент `HeaderButton` из либы, таже для нее необходим пакет иконок, в нешем случае это будет `Ionicons` из `@expo/vector-icons`
+
+Создаем компонент, который возвращает заимпортированный **HeaderButton** с переданными пропсами
+- IconComponent - нужно передать ссылку на пакет иконок
+- iconSize 
+- color
+- + пропсы сверху
+
+```js
+import React from 'react' 
+import {HeaderButton} from 'react-navigation-header-buttons';
+import {Ionicons} from '@expo/vector-icons';  
+ 
+const CustomHeaderButton = props => (
+  <HeaderButton  {...props} IconComponent={Ionicons} iconSize={23} color="yellow"/>
+  ) 
+
+export default CustomHeaderButton
+```
+
+После создания, в том месте где будем использовать компонент нужно заимпортить `HeaderButtons`, `Item` из либы, и созданный компонент кнопки
+
+Далее в месте использования (`headerRight`), передаем как **JSX** 
+
+```jsx
+<HeaderButtons HeaderButtonComponent={HeaderButton}>
+  <Item title="Favorite" iconName="ios-star" onPress={()=> console.log('FAV')}/>
+</HeaderButtons>
+```
+Обязательный пропс **HeaderButtonComponent**, в который передаем компонент кнопки **HeaderButton**
+Как children передаем заимпорченный компонент `Item` в который как пропсы указываем title, iconName, onPress  
+
+
+```js 
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import  HeaderButton from '../components/HeaderButton';
+
+... some code
+
+MealDetailScreen.navigationOptions = (nav) => {
+   ... some code 
+
+  return {
+    headerTitle:  title, 
+    headerRight:  (<HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item title="Favorite" iconName="ios-star" onPress={()=> console.log('FAV')}/> 
+                  </HeaderButtons>),
+  } 
+}
+```
+
+После этого в правой части хедера получим кнопки-иконки. Можно передавать любое количество кнопок-иконок
+
+***
+
+## Tab_Navigation
+
+[github ...](https://github.com/react-navigation/tabs)
+
+```js
+npm install --save react-navigation-tabs 
+```
+
+## createBottomTabNavigator
+
+[createBottomTabNavigator](#https://reactnavigation.org/docs/en/bottom-tab-navigator.html)
+
+Создадим навигацию подобно "табам", которые располагаются внизу приложения. 
+
+В файле навигации заимпортируем метод, который создает таб-навигацию
+
+```js
+import { createBottomTabNavigator } from 'react-navigation-tabs'; 
+```
+
+Затем создадим саму навигацию , вызовом метода `createBottomTabNavigator`, который как и стопка-навигация принимает объект с экранами.   
+Поместим туда первым табом всю стопку-навигцию `MealsNavigator` и вторым "табом" поместим экран `Favorites`.  
+Именуем этот навигатор как корневой, т.к по сути ту описана вся авигация приложения и передадим в метод `createAppContainer`     
+
+
+```js
+import {createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { Platform} from 'react-native';
+
+import Colors from '../constants/Colors'
+
+import CategoriesScreen from '../screens/CategoriesScreen';
+import CategoryMealsScreen from '../screens/CategoryMealsScreen';
+import MealDetailScreen from '../screens/MealDetailScreen';
+import FavoritesScreen from '../screens/FavoritesScreen';
+
+const MealsNavigator = createStackNavigator({
+  Categories:  CategoriesScreen, 
+  CategoryMeals:  CategoryMealsScreen ,
+  MealDetail: MealDetailScreen
+}, { 
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+    },
+    headerTintColor: 'yellow' 
+  }
+});
+
+
+const RootNavigator = createBottomTabNavigator({
+  Meals: MealsNavigator,
+  Favorites: FavoritesScreen
+})
+
+export default createAppContainer(RootNavigator);
+```
