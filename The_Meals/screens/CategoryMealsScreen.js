@@ -4,7 +4,10 @@ import {CATEGORIES, MEALS} from '../data/dummy-data.js';
 import MealItem from '../components/MealItem'
 
 const CategoryMealScreen = props => { 
-  const renderMealItem = itemData=> <MealItem title={itemData.item.title} /> 
+  const renderMealItem = ({item})=> (
+  <MealItem {...item}/>
+  )
+
   const catId = props.navigation.getParam('categoryId');
   const displayedMeals = MEALS.filter(meal=> meal.categoryIds.indexOf(catId)>=0);
 
@@ -31,12 +34,15 @@ const Container = styled.View`
   flex:1;
   justify-content: center;
   align-items: center;
+  padding: 15px;
 `;
 
  const Button = styled.Button` `;
 
  const Text = styled.Text``;
 
- const List = styled.FlatList``;
+ const List = styled.FlatList`
+  width:100%;
+ `;
 
 export default CategoryMealScreen;

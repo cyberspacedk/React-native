@@ -1,19 +1,26 @@
 import React from 'react'
 import styled from 'styled-components';
 
- const MealItem = (props) => {
+ const MealItem = ({title, duration, complexity, affordability, imageUrl}) => {
   return (
     <Item>
-      <Wrapper onPress={props.OnselectMeal}>
+      <Wrapper  >
         <Container>
-          <RowOne> 
-            <Content> 
-              {props.title}
-            </Content>
-          </RowOne>
-          <RowTwo>
 
-          </RowTwo>
+          <MealHeader> 
+            <Image source={{uri: imageUrl}}>
+              <HeaderText> 
+                {title}
+              </HeaderText>
+            </Image>
+          
+          </MealHeader>
+
+          <MealDetail>
+            <Text numberOfLines={1}>{duration}</Text>
+            <Text>{complexity.toUpperCase()}</Text>  
+            <Text>{affordability.toUpperCase()}</Text>  
+          </MealDetail>
       
         </Container>
       </Wrapper>
@@ -22,19 +29,48 @@ import styled from 'styled-components';
 }
 
 export default MealItem;
+
+// Touch
+const Wrapper = styled.TouchableOpacity``;
+
+// View
 const Item = styled.View` 
   height: 200px;
   width:100%;
-  background-color: #ccc;
+  background-color: #f5f5f5;
+  border-radius: 10;
+  overflow: hidden;
 `;
-const Wrapper = styled.TouchableOpacity``;
 const Container = styled.View``;
-const RowOne = styled.View`
-flex-direction: row;
+
+const MealHeader = styled.View`
+  flex-direction: row;
+  height: 80%;
 `;
-const RowTwo = styled.View`
-flex-direction: row;
+const MealDetail = styled.View`
+  flex-direction: row;
+  padding: 0 10px;
+  justify-content: space-between; 
+  align-items: center;
+  height: 20%;
 `; 
 
+// Image
+const Image  = styled.ImageBackground`
+  width:100%;
+  height:100%;
+  justify-content: flex-end;
+`; 
 
-const Content = styled.Text``;
+// Text
+const HeaderText = styled.Text`
+  color: #fff;
+  font-family: 'open-sans-bold';
+  font-size: 22px;
+  padding: 5px 12px;
+  background-color: rgba(0,0,0,.6);
+  text-align:center;
+
+`; 
+
+const Text = styled.Text``;

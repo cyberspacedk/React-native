@@ -4,11 +4,8 @@ import styled from 'styled-components';
 import MealItem from '../components/MealItem'
 
 const MealDetailScreen = props => { 
-  const renderMealItem = itemData=> <MealItem title={itemData.item.title} />
-  
-  const catId = props.navigation.getParam('categoryId');
-  const displayedMeals = MEALS.filter(meal=> meal.categoryIds.indexOf(catId)>=0);
-
+ 
+   
   return (
     <Container>
       <Text>The Meal Detail Screen!</Text>
