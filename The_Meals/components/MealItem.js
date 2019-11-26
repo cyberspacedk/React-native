@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components';
 
- const MealItem = ({title, duration, complexity, affordability, imageUrl}) => {
+ const MealItem = ({title, duration, complexity, affordability, imageUrl, onSelectMeal}) => {
   return (
     <Item>
-      <Wrapper  >
+      <Wrapper  onPress={onSelectMeal}>
         <Container>
 
           <MealHeader> 
@@ -40,6 +40,7 @@ const Item = styled.View`
   background-color: #f5f5f5;
   border-radius: 10;
   overflow: hidden;
+  margin: 10px 0;
 `;
 const Container = styled.View``;
 

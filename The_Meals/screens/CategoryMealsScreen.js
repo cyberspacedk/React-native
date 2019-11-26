@@ -5,7 +5,9 @@ import MealItem from '../components/MealItem'
 
 const CategoryMealScreen = props => { 
   const renderMealItem = ({item})=> (
-  <MealItem {...item}/>
+  <MealItem {...item} onSelectMeal={()=> {
+    props.navigation.navigate('MealDetail', { mealId: item.id })
+  }}/>
   )
 
   const catId = props.navigation.getParam('categoryId');
@@ -22,7 +24,7 @@ CategoryMealScreen.navigationOptions = (navData) => {
   const catId = navData.navigation.getParam('categoryId');
   const selectedCategory = CATEGORIES.find(item=> item.id === catId);
   return {
-    headerTitle: selectedCategory.title,
+    headerTitle: selectedCategory.title, 
     headerStyle: {
       backgroundColor: 'pink'
     }
