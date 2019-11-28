@@ -1,38 +1,62 @@
-import React from 'react' 
-import styled from 'styled-components'; 
+import React from 'react';
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  TouchableNativeFeedback
+} from 'react-native';
 
-const CategoryGridTile = (props) => {
-  return ( 
-    <Item onPress={props.onSelect}>
-      <Container style={{backgroundColor: props.color}}>
-        <Text>{props.title}</Text>    
-      </Container>
-    </Item>
-  )
-}
+const CategoryGridTile = props => {
+  let TouchableCmp = TouchableOpacity;
 
-const Item = styled.TouchableOpacity` 
-  display: flex;
-  flex:1; 
-  margin: 15px;
-  height: 150px;  
-`;
- 
+  if (Platform.OS === 'android' && Platform.Version >= 21) {
+    TouchableCmp = TouchableNativeFeedback;
+  }
+  return (
+    <View style={styles.gridItem}>
+      <TouchableCmp style={{ flex: 1 }} onPress={props.onSelect}>
+        <View
+          style={{ ...styles.container, ...{ backgroundColor: props.color } }}
+        >
+          <Text style={styles.title} numberOfLines={2}>
+            {props.title}
+          </Text>
+        </View>
+      </TouchableCmp>
+    </View>
+  );
+};
 
-const Container = styled.View` 
-  display: flex;
-  flex:1;
-  border-radius: 5px;
-  padding: 15px;
-  border: 2px solid #000; 
-  justify-content: flex-end;
-  align-items: flex-end;
-`;
+const styles = StyleSheet.create({
+  gridItem: {
+    flex: 1,
+    margin: 15,
+    height: 150,
+    borderRadius: 10,
+    overflow:
+      Platform.OS === 'android' && Platform.Version >= 21
+        ? 'hidden'
+        : 'visible',
+    elevation: 5
+  },
+  container: {
+    flex: 1,
+    borderRadius: 10,
+    shadowColor: 'black',
+    shadowOpacity: 0.26,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 10,
+    padding: 15,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
+  },
+  title: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 22,
+    textAlign: 'right'
+  }
+});
 
-const Text = styled.Text`
-  font-family: 'open-sans-bold';
-  font-size: 18px; 
-  text-align: right;
-`;
-
-export default CategoryGridTile; 
+export default CategoryGridTile;
