@@ -22,19 +22,30 @@ const ListItem = props => {
 
 const MealDetailScreen = props => {
 
-  const availableMeals = useSelector(state=> state.meals.meals); 
   const mealId = props.navigation.getParam('mealId'); 
+
+  const availableMeals = useSelector(state=> state.meals.meals); 
+  // toggle favorites meal. check if meal exist in favorites array
+  const currentMealIsFavorite = useSelector(state=> state.meals.favoritesMeals.some(meal=> meal.id === mealId) );
+  // find current meal
   const selectedMeal = availableMeals.find(meal => meal.id === mealId);
 
   const dispatch = useDispatch();
+  // shoot action 
   const toggleFavoriteHandler = useCallback(() => dispatch(toggleFavorite(mealId)),[dispatch, mealId]);
 
   useEffect(()=> {
     props.navigation.setParams({
       toggleFav: toggleFavoriteHandler
     })
-  },[toggleFavoriteHandler])
-  
+  },[toggleFavoriteHandler]);
+
+  // set Boolean isFav to navigation object
+  useEffect(()=> {
+    props.navigation.setParams({
+      isFav: currentMealIsFavorite
+    })
+  }, [currentMealIsFavorite])
 
   return (
     <ScrollView>
@@ -57,16 +68,21 @@ const MealDetailScreen = props => {
 };
 
 MealDetailScreen.navigationOptions = navigationData => {  
+  // get title 
   const mealTitle = navigationData.navigation.getParam('mealTitle');
+  // get toggle function
   const toggleFavorite = navigationData.navigation.getParam('toggleFav');
+  // get Boolean isFav value
+  const isFav = navigationData.navigation.getParam('isFav');
 
+  // now lets set this values to header app
   return {
     headerTitle: mealTitle,
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Favorite"
-          iconName="ios-star"
+          iconName={isFav ? "ios-star" : 'ios-star-outline'}
           onPress={toggleFavorite}
         />
       </HeaderButtons>
