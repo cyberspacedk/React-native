@@ -10,12 +10,15 @@ import Colors from '../constatnts/Colors';
 
 // screens
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
+import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
+
 
 const android = Platform.OS === 'android';
 
 
 const ProductsNavigator = createStackNavigator({
-  ProductsOverview: ProductsOverviewScreen
+  ProductsOverview: ProductsOverviewScreen,
+  ProductDetail: ProductDetailScreen
 },{
   defaultNavigationOptions: {
     headerStyle: {
