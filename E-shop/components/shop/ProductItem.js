@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 5,
     borderRadius: 5,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff',  
     height: 300,
     margin: 20, 
   },
@@ -51,11 +51,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    marginVertical: 4
+    marginVertical: 4,
+    fontFamily: 'open-sans-bold'
   },
   price: {
     fontSize: 14,
-    color: '#888'
+    color: '#888',
+    fontFamily: 'open-sans'
   },
   actions: {
     flexDirection: 'row',
