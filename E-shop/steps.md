@@ -8,3 +8,4 @@
 4. ceate file structure
 5. create files (screens etc)
 6. install neccesary libraries, like `redux react-redux` navigation libs, *etc*
+> DONT forget rerun expo 

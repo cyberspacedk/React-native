@@ -1,13 +1,19 @@
 import React from 'react'
-import { View, Text, Flatlist, StyleSheet } from 'react-native'
+import { View, Text, FlatList, StyleSheet } from 'react-native'
+import {useSelector} from 'react-redux';
 
 const ProductsOverviewScreen = (props) => {
+
+  const products = useSelector(state=> state.products.avalaibleProducts); 
+  
+
   return (
-    <Flatlist />
+    <FlatList 
+      data={products} 
+      keyExtractor={item=> item.id} 
+      renderItem={({item})=> <Text>{item.title}</Text>}
+    />
   )
-}
-const styles = StyleSheet.create({ 
-})
+} 
 
-
-export default ProductsOverviewScreen
+export default ProductsOverviewScreen;
