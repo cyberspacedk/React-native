@@ -19,8 +19,7 @@ const fetchFonts = () => {
 
 export default function App() {
   // indicator of fonts fetching progress
-  const [fontLoaded, setFontLoaded] = useState(false); 
-  console.log("TCL: App -> fontLoaded", fontLoaded)
+  const [fontLoaded, setFontLoaded] = useState(false);  
 
   if(!fontLoaded){ 
     return (
