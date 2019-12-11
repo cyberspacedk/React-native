@@ -1,4 +1,4 @@
-import {ADD_TO_CART} from '../actions/cart';
+import {ADD_TO_CART, REMOVE_FROM_CART} from '../actions/cart';
 import CartItem from '../../models/cart-item';
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
 
 export default (state=initialState, action) =>{
   switch(action.type){
+// add item to cart ==============
     case ADD_TO_CART : 
     // get data from added product
       const addedProduct = action.product;
@@ -43,6 +44,37 @@ export default (state=initialState, action) =>{
         },
         total: state.total + productPrice
       };
+// remove item from cart ==============
+    case REMOVE_FROM_CART: 
+    // define quantity of ONE product in cart
+      const {productId} = action;
+      const currentItem = state.items[productId] 
+      const currentItemQuantity = currentItem.quantity;
+      let updatedCartItems;
+
+      if(currentItemQuantity > 1){
+        // decrease quantity and sum in concrete product
+        const updatedCartItem = {
+          ...currentItem, 
+          quantity: currentItemQuantity-1,
+          sum: currentItem.sum - currentItem.productPrice
+        }
+       
+        // make a cart update
+        updatedCartItems = {...state.items, [productId]: updatedCartItem}
+        
+      }else {
+        // make a cope of items in cart
+        updatedCartItems = {...state.items};
+        // delete items by passing ID from cart
+        delete updatedCartItems[action.productId];
+      }
+      return {
+        ...state,
+        items: updatedCartItems,
+        total: state.total - currentItem.productPrice
+      };
+
     default: 
       return state;
   }

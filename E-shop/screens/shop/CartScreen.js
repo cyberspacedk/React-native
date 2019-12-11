@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, Text, StyleSheet, FlatList, Button} from 'react-native'
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
+import {removeFromCart} from '../../store/actions/cart';
 import CartItem from '../../components/shop/CartItem';
 
 import Colors from '../../constatnts/Colors';
@@ -25,6 +26,9 @@ const CartScreen = () => {
     return transformedCartItems;
   });
 
+  const dispatch = useDispatch();
+
+
   const emptyCart = cartItems.length === 0;
      
   return (
@@ -40,7 +44,7 @@ const CartScreen = () => {
       <FlatList 
         data={cartItems} 
         keyExtractor={({productId})=> productId} 
-        renderItem={({item})=> <CartItem {...item} onRemove={()=> null}/>}
+        renderItem={({item})=> <CartItem {...item} onRemove={()=> dispatch(removeFromCart(item.productId))}/>}
       />
       
     </View>

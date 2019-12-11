@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, FlatList, StyleSheet, Platform } from 'react-native'
 import {useSelector, useDispatch} from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
-import addToCart from '../../store/actions/cart';  
+import {addToCart} from '../../store/actions/cart';  
 import {HeaderButtons , Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
 
