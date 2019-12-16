@@ -4,5 +4,5 @@ export default class Order {
     this.items = items;
     this.total = total;
     this.date = date;
-  }
+  }  
 }
