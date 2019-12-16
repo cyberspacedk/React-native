@@ -29,8 +29,7 @@ const ProductItem = (props) =>  {
         <Button color={Colors.primary} title="To Cart" onPress={props.onAddToCart}/> 
       </View>
     </View>
-  </TouchableCmp>
-
+  </TouchableCmp> 
 ) }
 
 const styles = StyleSheet.create({
