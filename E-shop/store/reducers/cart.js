@@ -1,6 +1,7 @@
 import {ADD_TO_CART, REMOVE_FROM_CART} from '../actions/cart';
 import {ADD_ORDER} from '../actions/orders';
 import CartItem from '../../models/cart-item';
+import { DELETE_PRODUCT } from '../actions/products';
 
 const initialState = {
   items: {},
@@ -78,6 +79,23 @@ export default (state=initialState, action) =>{
 // when order has been added need to clear cart
     case ADD_ORDER:
       return initialState;
+//  if admin remove product, it should be deleted from cart also 
+    case DELETE_PRODUCT: 
+    if(!state.items[action.productId]){
+      return state;
+    }
+
+    const updatedItems = {...state.items};
+    const sumDeleted = updatedItems[action.productId].sum;
+    delete updatedItems[action.productId]
+
+      return {
+        ...state, 
+        items: {
+          ...updatedItems
+        },
+        total: state.total - sumDeleted
+      }
 // default return
     default: 
       return state;
