@@ -1,13 +1,17 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
 const EditProductScreen = () => {
   return (
     <View>
-      <Text></Text>
+      <Text>The edit product screen</Text>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+   
+})
 
 
 export default EditProductScreen

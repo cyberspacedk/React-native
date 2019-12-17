@@ -11,6 +11,7 @@ import Colors from '../../constatnts/Colors';
 const CartScreen = () => {
 
   const cartTotalAmount = useSelector(({cart})=> cart.total);  
+  const roundedAmount = Math.round(cartTotalAmount.toFixed(2) * 100)/100;
 
   const cartItems = useSelector(({cart})=> {
     const transformedCartItems = [];
@@ -37,7 +38,7 @@ const CartScreen = () => {
       <View style={styles.summary}>
         <Text style={styles.summaryText}> 
           Total: 
-          <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text>
+          <Text style={styles.amount}>${roundedAmount}</Text>
         </Text>
         <Button title="Order Now" color={Colors.accent} disabled={emptyCart} onPress={()=> dispatch(addOrder(cartItems, cartTotalAmount))}/>
       </View>

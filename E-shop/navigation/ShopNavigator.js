@@ -15,7 +15,9 @@ import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrderScreen from '../screens/shop/OrdersScreen';  
+// screens for admin
 import UserProductsScreen from '../screens/user/UserProductsScreen';
+import EditProductScreen from '../screens/user/EditProductScreen';
 
 // define platform 
 const ios = Platform.OS === 'ios';
@@ -59,7 +61,8 @@ const OrderNavigator = createStackNavigator({
 
 // navigation for orders page
 const AdminNavigator = createStackNavigator({
-  UserProducts: UserProductsScreen
+  UserProducts: UserProductsScreen,
+  EditProduct : EditProductScreen
  },{ 
   navigationOptions: {
     drawerIcon: drawerConfig =><Ionicons name={ios ? 'ios-create':'md-create'} size={23} color={drawerConfig.tintColor}/>

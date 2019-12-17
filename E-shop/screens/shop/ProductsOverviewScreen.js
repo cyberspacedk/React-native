@@ -26,9 +26,7 @@ const ProductsOverviewScreen = (props) => {
       keyExtractor={item=> item.id} 
       renderItem={({item})=> (
         <ProductItem 
-          image={item.imageUrl}
-          title={item.title}
-          price={item.price} 
+         {...item}
           onSelect={()=> handleItemDetails(item.id, item.title)} 
         >
           <Button color={Colors.primary} title="View Details" onPress={()=> handleItemDetails(item.id, item.title)}/>
