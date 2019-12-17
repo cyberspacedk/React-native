@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Platform, Button } from 'react-native';
 import {useSelector} from 'react-redux'; 
 import {HeaderButtons , Item} from 'react-navigation-header-buttons'; 
 import HeaderButton from '../../components/UI/HeaderButton';
 
+import Colors from '../../constatnts/Colors';
 import ProductItem from '../../components/shop/ProductItem';
 
 const UserProductsScreen = () => {
@@ -12,7 +13,12 @@ const UserProductsScreen = () => {
     <FlatList 
       data={userProducts} 
       keyExtractor={(item)=> item.id} 
-      renderItem={({item})=> ( <ProductItem {...item} onViewDetail={()=> null} onAddToCart={()=>null}/> )} 
+      renderItem={({item})=> ( 
+        <ProductItem {...item}  onselect={()=>null}>
+          <Button color={Colors.primary} title="Edit" onPress={()=>  null}/>
+          <Button color={Colors.primary} title="Delete" onPress={()=>  null}/> 
+        </ProductItem>
+      )} 
     />
   )
 }
@@ -44,3 +50,5 @@ const styles = StyleSheet.create({
 })
 
 export default UserProductsScreen
+
+
