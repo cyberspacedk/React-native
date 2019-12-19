@@ -6,7 +6,7 @@ import {addToCart} from '../../store/actions/cart';
 
 const ProductDetailScreen = (props) => {
   const productId = props.navigation.getParam('productId');
-  const product = useSelector(state=> state.products.avalaibleProducts.find(prod=> prod.id === productId));
+  const product = useSelector(state=> state.products.avalaibleProducts.find(prod=> prod.id === productId)); 
   const dispatch = useDispatch();
 
   return (
@@ -15,7 +15,7 @@ const ProductDetailScreen = (props) => {
       <View style={styles.actions}>
         <Button color={Colors.primary} title="Add to Cart" onPress={()=> dispatch(addToCart(product))} /> 
       </View>
-      <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+      <Text style={styles.price}>${product.price}</Text>
       <Text style={styles.description}>{product.description}</Text> 
     </ScrollView>
   )

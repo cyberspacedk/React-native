@@ -2,9 +2,12 @@ import React, {useState, useEffect, useCallback} from 'react'
 import { View, Text, StyleSheet, TextInput, ScrollView, Platform} from 'react-native'
 import {HeaderButtons , Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+
+import {createProduct, updateProduct} from '../../store/actions/products';
 
 const EditProductScreen = (props) => {
+  const dispatch = useDispatch();
 // if we have a productId that means we in a Edit screen, otherwise we in a Add product screen
 const productId = props.navigation.getParam('productId');
 const editedProduct = useSelector(state=> state.products.userProducts.find(product=> product.id === productId)); 
@@ -15,10 +18,16 @@ const [description, setDescription]= useState(editedProduct ? editedProduct.desc
 const [price, setPrice]= useState('');
 
 const submitHandler = useCallback(()=> {
-  props.navigation.setParams({submit: submitHandler})
-});
+  console.log(editedProduct)
+  if (editedProduct){
+    dispatch(updateProduct(productId,title ,description, imageUrl ))
+  }else{
+    dispatch(createProduct(title ,description, imageUrl, +price))
+  } 
+}, [dispatch, productId, title, description, imageUrl, price]);
+ 
 useEffect(()=> {
-
+  props.navigation.setParams({submit: submitHandler})
 }, [submitHandler])
 
 return (
@@ -83,7 +92,7 @@ const styles = StyleSheet.create({
      marginVertical: 8
    },
    input: {
-     padding: '5px 2px',
+     padding: 5,
      borderBottomColor: '#ccc',
      borderBottomWidth: 1
    }

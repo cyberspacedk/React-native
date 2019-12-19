@@ -10,7 +10,7 @@ import Colors from '../../constatnts/Colors';
 
 const ProductsOverviewScreen = (props) => {
 
-  const products = useSelector(state=> state.products.avalaibleProducts); 
+  const products = useSelector(state=> state.products.avalaibleProducts);  
   const dispatch = useDispatch(); 
   
   const handleItemDetails = (id, title) => {
