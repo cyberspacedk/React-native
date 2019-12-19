@@ -15,7 +15,7 @@ const editedProduct = useSelector(state=> state.products.userProducts.find(produ
 const [title, setTitle]= useState(editedProduct ? editedProduct.title : '');
 const [imageUrl, setImageUrl]= useState(editedProduct ? editedProduct.imageUrl : '');
 const [description, setDescription]= useState(editedProduct ? editedProduct.description : '');
-const [price, setPrice]= useState('');
+const [price, setPrice]= useState(''); 
 
 const submitHandler = useCallback(()=> {
   console.log(editedProduct)
@@ -24,6 +24,7 @@ const submitHandler = useCallback(()=> {
   }else{
     dispatch(createProduct(title ,description, imageUrl, +price))
   } 
+  props.navigation.goBack();
 }, [dispatch, productId, title, description, imageUrl, price]);
  
 useEffect(()=> {
