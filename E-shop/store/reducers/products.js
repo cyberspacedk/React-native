@@ -1,20 +1,27 @@
-import PRODUCTS from '../../data/dummy-data'; 
-import {DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT, updateProduct} from '../actions/products';
+import PRODUCTS from '../../data/dummy-data';  
+import {DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT, SET_PRODUCTS} from '../actions/products';
 import Product from '../../models/product';
 
 // grab products concrete user
 const userOneProducts = PRODUCTS.filter(product=> product.ownerId === 'u1');
 
 const initialState = {
-  avalaibleProducts: PRODUCTS,
-  userProducts: userOneProducts 
+  avalaibleProducts: [],
+  userProducts: [] 
 }
 
 export default (state = initialState, action )=> {
   switch(action.type){
+
+    case SET_PRODUCTS: {
+      return {
+        avalaibleProducts: action.products,
+        userProducts: action.products.filter(product=> product.ownerId === 'u1')
+      }
+    };
+
     case DELETE_PRODUCT:{
-      const updatedUserProducts = state.avalaibleProducts.filter(product=> product.id !== action.productId); 
-      
+      const updatedUserProducts = state.avalaibleProducts.filter(product=> product.id !== action.productId);  
       return {
         ...state, 
         userProducts : updatedUserProducts,
@@ -23,8 +30,8 @@ export default (state = initialState, action )=> {
     }
  
     case CREATE_PRODUCT: {
-      const {title, description, imageUrl, price} = action.productData;
-      const newProduct = new Product(new Date().toString(), 'u1', title, imageUrl, description, price); 
+      const {id, title, description, imageUrl, price} = action.productData;
+      const newProduct = new Product(id, 'u1', title, imageUrl, description, price); 
       
       return {
         ...state,
@@ -56,6 +63,7 @@ export default (state = initialState, action )=> {
         userProducts: updatedUserProducts
       };
     }
+
     default : 
       return state; 
   }
