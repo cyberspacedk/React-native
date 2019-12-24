@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useReducer} from 'react'
-import { View, Text, StyleSheet, TextInput, ScrollView, Platform, Alert } from 'react-native'
+import { View, StyleSheet, ScrollView, Platform, Alert, KeyboardAvoidingView } from 'react-native'
 import {HeaderButtons , Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
 import {useSelector, useDispatch} from 'react-redux';
@@ -60,7 +60,6 @@ const EditProductScreen = (props) => {
 // for convininience purposes destructure data in variables
   const {title, imageUrl, description, price} = formState.inputValues; 
 
-
 // submit form memoized function
   const submitHandler = useCallback(()=> { 
     if(!formState.formIsValid){ 
@@ -92,8 +91,8 @@ const EditProductScreen = (props) => {
     })
   },[dispatchFormState]);
 
-
   return (
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100} style={{flex:1}}>
       <ScrollView>
         <View style={styles.form}>  
 
@@ -155,6 +154,7 @@ const EditProductScreen = (props) => {
 
         </View> 
       </ScrollView> 
+    </KeyboardAvoidingView>
   )
 }
 
@@ -193,6 +193,5 @@ const styles = StyleSheet.create({
      borderBottomWidth: 1
    }
 })
-
 
 export default EditProductScreen
