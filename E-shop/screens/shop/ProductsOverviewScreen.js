@@ -15,7 +15,7 @@ const ProductsOverviewScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const products = useSelector(state=> state.products.avalaibleProducts);  
+  const products = useSelector(state=> state.products.avalaibleProducts);   
   const dispatch = useDispatch(); 
 
   // async func for getting products
@@ -26,11 +26,19 @@ const ProductsOverviewScreen = (props) => {
       await dispatch(fetchProducts())
     }catch{
       setIsError(true)
-    }finally{
-      setIsLoading(false); 
-    }
+    } 
+    setIsLoading(false);  
   }, [dispatch, setIsLoading, setIsError])
-  
+
+  // load products every time when navigation is change
+  useEffect(()=>{
+  // store to constant event listener
+   const willFocusSubcscription =  props.navigation.addListener('willFocus',  loadProducts); 
+  //  unsubscribe from event when component unmounts
+    return ()=> willFocusSubcscription.remove();
+  },[loadProducts])
+
+  // load products when component mounts
   useEffect(()=>{ loadProducts()},[loadProducts]);
 
 
