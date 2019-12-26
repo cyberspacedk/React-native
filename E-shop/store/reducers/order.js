@@ -1,7 +1,7 @@
 import moment from 'moment'; 
 import Order from '../../models/order';
 
-import {ADD_ORDER} from '../actions/orders';
+import {ADD_ORDER, GET_ORDERS} from '../actions/orders';
 
 const initialState = {
   orders: []
@@ -9,16 +9,20 @@ const initialState = {
 
 export default (state=initialState, action) => {
   switch(action.type){
-    case ADD_ORDER:
-      const id = new Date().toString(); 
-      const date =  moment().format('MMMM Do YYYY, hh:mm')
+    case ADD_ORDER: { 
+      const {id, cartItems, total, date} = action.orderData;      
+      const newOrder = new Order(id, cartItems, total, date);
       
-      const newOrder = new Order(id, action.orderData.cartItems, action.orderData.total, date);
        return {
          ...state,
          orders: [...state.orders, newOrder]
        }
-
+    }
+    case  GET_ORDERS: {
+      return {
+        orders: action.orders
+      }
+    }
     default: 
       return state;
   }
