@@ -13,21 +13,22 @@ import Colors from '../../constatnts/Colors';
 const ProductsOverviewScreen = (props) => {
   // handling async requests
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const products = useSelector(state=> state.products.avalaibleProducts);   
   const dispatch = useDispatch(); 
 
   // async func for getting products
-  const loadProducts = useCallback( async ()=> {
-    setIsLoading(true);
+  const loadProducts = useCallback( async ()=> { 
     setIsError(false);
+    setIsRefreshing(true);
     try{  
       await dispatch(fetchProducts())
     }catch{
       setIsError(true)
-    } 
-    setIsLoading(false);  
+    }
+    setIsRefreshing(false);
   }, [dispatch, setIsLoading, setIsError])
 
   // load products every time when navigation is change
@@ -39,7 +40,10 @@ const ProductsOverviewScreen = (props) => {
   },[loadProducts])
 
   // load products when component mounts
-  useEffect(()=>{ loadProducts()},[loadProducts]);
+  useEffect(()=>{ 
+    setIsLoading(true);
+    loadProducts().then(()=> setIsLoading(false))
+  },[loadProducts]);
 
 
   const handleItemDetails = (id, title) => {
@@ -76,6 +80,8 @@ const ProductsOverviewScreen = (props) => {
 
   return (
     <FlatList 
+      onRefresh={loadProducts}
+      refreshing={isRefreshing}
       data={products} 
       keyExtractor={item=> item.id} 
       renderItem={({item})=> (
