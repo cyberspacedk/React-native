@@ -44,9 +44,8 @@ export const getOrders = () => async dispatch=> {
        responseData[order].date,  
     ); 
     loadedOrders.push(product)
-  })
- 
-  console.log(responseData);
+  }) 
+  
   dispatch({
     type: GET_ORDERS,
     orders: loadedOrders

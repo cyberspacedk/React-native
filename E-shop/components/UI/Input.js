@@ -43,7 +43,7 @@ const Input = (props) => {
   },[inputState, onInputChange, name])
 
   // validation and handling input func
-  const textChangeHandler = text => {
+  const textChangeHandler = text => { 
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let isValid = true;
     
