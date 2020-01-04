@@ -1,5 +1,5 @@
-import React, {useState, useReducer, useCallback} from 'react'
-import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, Button } from 'react-native'
+import React, {useState, useReducer, useCallback, useEffect} from 'react'
+import { View, Text, ActivityIndicator, StyleSheet, ScrollView, KeyboardAvoidingView, Button, Alert} from 'react-native'
 import {LinearGradient} from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
 
@@ -36,7 +36,15 @@ const formReducer = (state, {type, name, value, isValid}) => {
 const AuthScreen = () => {
   const dispatch = useDispatch();
   const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setIsError] = useState(null);
 
+  useEffect(()=>{
+    if(error){
+      return Alert.alert('An Error Occured!', error, [{text:'Okay'}])
+    }
+  }, [error])
+  
   // define initial state as second argument, which avaliable in formState variable
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
@@ -59,17 +67,21 @@ const AuthScreen = () => {
     })
   }, [dispatchFormState])
 
-  const authHandler = () => {
-    const {email, password} = formState.inputValues;  
-    if(isSignUpMode){
-      dispatch(signUp(email, password)) 
-    }else{
-      dispatch(logIn(email,password))
-    }
+  const authHandler = async () => {
+    const {email, password} = formState.inputValues; 
+    setIsLoading(true);
+    setIsError(null); 
+    const authMode = isSignUpMode ?  signUp : logIn;
+    try{
+      await dispatch(authMode(email, password)) 
+    }catch(err){
+      setIsError(err.message)
+    }    
+    setIsLoading(false)
   };
-
-  const switchAuthMode = ()=>  setIsSignUpMode(prevState => !prevState) 
-
+  
+  const switchAuthMode = ()=> setIsSignUpMode(prevState => !prevState);
+    
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.screen}>
       <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>  
@@ -101,7 +113,11 @@ const AuthScreen = () => {
             />
 
             <View style={styles.buttonContainer}>
-              <Button title={isSignUpMode ? "SignUp":"Login"} color={Colors.primary} onPress={authHandler}/>
+              {isLoading ? 
+                <ActivityIndicator size="small" /> 
+                  :
+                <Button title={isSignUpMode ? "SignUp":"Login"} color={Colors.primary} onPress={authHandler}/> 
+              }
             </View>
             <View style={styles.buttonContainer}>
               <Button title={`Switch to ${isSignUpMode ? 'Login' : 'Sign Up'}`} color={Colors.accent} onPress={switchAuthMode}/> 
