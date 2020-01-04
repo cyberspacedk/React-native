@@ -1,9 +1,9 @@
-import React, {useReducer, useCallback} from 'react'
+import React, {useState, useReducer, useCallback} from 'react'
 import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, Button } from 'react-native'
 import {LinearGradient} from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
 
-import {signUp} from '../../store/actions/auth';
+import {signUp, logIn} from '../../store/actions/auth';
 
 import Input from '../../components/UI/Input';
 import Card from '../../components/UI/Card';
@@ -35,6 +35,7 @@ const formReducer = (state, {type, name, value, isValid}) => {
 
 const AuthScreen = () => {
   const dispatch = useDispatch();
+  const [isSignUpMode, setIsSignUpMode] = useState(false);
 
   // define initial state as second argument, which avaliable in formState variable
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -58,10 +59,16 @@ const AuthScreen = () => {
     })
   }, [dispatchFormState])
 
-  const signUpHandler = () => {
+  const authHandler = () => {
     const {email, password} = formState.inputValues;  
-    dispatch(signUp(email, password))
+    if(isSignUpMode){
+      dispatch(signUp(email, password)) 
+    }else{
+      dispatch(logIn(email,password))
+    }
   };
+
+  const switchAuthMode = ()=>  setIsSignUpMode(prevState => !prevState) 
 
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.screen}>
@@ -94,19 +101,17 @@ const AuthScreen = () => {
             />
 
             <View style={styles.buttonContainer}>
-              <Button title="Login" color={Colors.primary} onPress={signUpHandler}/>
+              <Button title={isSignUpMode ? "SignUp":"Login"} color={Colors.primary} onPress={authHandler}/>
             </View>
             <View style={styles.buttonContainer}>
-              <Button title="Switch to Sign Up" color={Colors.accent} onPress={()=>{}}/> 
-            </View>
-
+              <Button title={`Switch to ${isSignUpMode ? 'Login' : 'Sign Up'}`} color={Colors.accent} onPress={switchAuthMode}/> 
+            </View> 
           </ScrollView>
         </Card>
-      </LinearGradient>
-    </KeyboardAvoidingView>
-   
+      </LinearGradient> 
+    </KeyboardAvoidingView> 
   )
-}
+} 
 
 
 AuthScreen.navigationOptions = { 
