@@ -16,10 +16,10 @@ export default (state = initialState, action )=> {
     case SET_PRODUCTS: {
       return {
         avalaibleProducts: action.products,
-        userProducts: action.products.filter(product=> product.ownerId === 'u1')
+        userProducts: action.userProducts
       }
     };
-
+ 
     case DELETE_PRODUCT:{
       const updatedUserProducts = state.avalaibleProducts.filter(product=> product.id !== action.productId);  
       return {
@@ -30,8 +30,8 @@ export default (state = initialState, action )=> {
     }
  
     case CREATE_PRODUCT: {
-      const {id, title, description, imageUrl, price} = action.productData;
-      const newProduct = new Product(id, 'u1', title, imageUrl, description, price); 
+      const {id, title, description, imageUrl, price, ownerId} = action.productData;
+      const newProduct = new Product(id, ownerId, title, imageUrl, description, price); 
       
       return {
         ...state,

@@ -5,31 +5,36 @@ export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 
-export const fetchProducts = ()=> async dispatch => { 
-    const response =  await fetch('https://e-shop-rn-mobile.firebaseio.com/products.json');  
+export const fetchProducts = ()=> async (dispatch, getState) => { 
+  const {userId} = getState().auth;
+  const response =  await fetch('https://e-shop-rn-mobile.firebaseio.com/products.json');  
    
-      const responseData = await response.json(); 
-      const loadedProducts = [];
-      
-      Object.keys(responseData).forEach(prod => {
-        const product = new Product(
-          prod, 
-          'u1', 
-          responseData[prod].title, 
-          responseData[prod].imageUrl, 
-          responseData[prod].description, 
-          responseData[prod].price
-        );
+  const responseData = await response.json(); 
+  const loadedProducts = [];
   
-        loadedProducts.push(product)
-      })
-  
-      dispatch({type: SET_PRODUCTS, products: loadedProducts}) 
+  Object.keys(responseData).forEach(prod => {
+    const product = new Product(
+      prod, 
+      'u1', 
+      responseData[prod].title, 
+      responseData[prod].imageUrl, 
+      responseData[prod].description, 
+      responseData[prod].price
+    );
+
+    loadedProducts.push(product)
+  })
+  const userProducts = loadedProducts.filter(product=> product.ownerId === userId)
+  dispatch({
+    type: SET_PRODUCTS, 
+    products: loadedProducts,
+    userProducts
+  }) 
 }
 
 export const deleteProduct = productId => async (dispatch, getState) => {
   try{
-    const {token} = getState().auth;
+    const {token, userId} = getState().auth;
 
     const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/products/${productId}.json?auth=${token}`, {
       method: 'DELETE' 
@@ -55,7 +60,7 @@ export const createProduct = (title, description, imageUrl, price) => async (dis
     const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/products.json?auth=${token}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, description, imageUrl, price })
+      body: JSON.stringify({ title, description, imageUrl, price, ownerId: userId })
     })
     
     if(!response.ok) throw new Error('Something went wrong !');
@@ -68,6 +73,7 @@ export const createProduct = (title, description, imageUrl, price) => async (dis
       type: CREATE_PRODUCT, 
       productData: {
         id: responseData.name,
+        ownerId: userId,
         title, 
         description, 
         imageUrl, 

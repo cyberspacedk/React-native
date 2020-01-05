@@ -6,9 +6,9 @@ export const GET_ORDERS = 'GET_ORDERS';
 export const addOrder = (cartItems, total)=> async (dispatch, getState)=> {
   const date = new Date().toISOString();
   try{  
-    const {token} = getState().auth;
+    const {token, userId} = getState().auth;
 
-    const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/u1.json?auth=${token}`, {
+    const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/${userId}.json?auth=${token}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cartItems, total, date})
@@ -32,13 +32,16 @@ export const addOrder = (cartItems, total)=> async (dispatch, getState)=> {
   }
 } 
 
-export const getOrders = () => async dispatch=> {
-  const response = await fetch('https://e-shop-rn-mobile.firebaseio.com/orders/u1.json');
+export const getOrders = () => async (dispatch, getState)=> {
+
+  const {userId} = getState().auth; 
+  const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/${userId}.json`);
   const responseData = await response.json(); 
+  console.log("➡️: getOrders -> responseData", responseData)
 
   const loadedOrders = [];
       
-  Object.keys(responseData).forEach(order => { 
+ responseData && Object.keys(responseData).forEach(order => { 
     const product = new Order( 
       order,
       responseData[order].cartItems, 
