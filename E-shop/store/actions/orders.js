@@ -3,10 +3,12 @@ import Order from '../../models/order';
 export const ADD_ORDER = 'ADD_ORDER';
 export const GET_ORDERS = 'GET_ORDERS';
 
-export const addOrder = (cartItems, total)=> async dispatch=> {
+export const addOrder = (cartItems, total)=> async (dispatch, getState)=> {
   const date = new Date().toISOString();
   try{  
-    const response =  await fetch('https://e-shop-rn-mobile.firebaseio.com/orders/u1.json', {
+    const {token} = getState().auth;
+
+    const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/u1.json?auth=${token}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cartItems, total, date})

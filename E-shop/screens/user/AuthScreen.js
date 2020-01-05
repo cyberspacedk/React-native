@@ -33,7 +33,7 @@ const formReducer = (state, {type, name, value, isValid}) => {
   return state;
 }
 
-const AuthScreen = () => {
+const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,11 +73,12 @@ const AuthScreen = () => {
     setIsError(null); 
     const authMode = isSignUpMode ?  signUp : logIn;
     try{
-      await dispatch(authMode(email, password)) 
+      await dispatch(authMode(email, password));
+      props.navigation.navigate('Shop');
     }catch(err){
       setIsError(err.message)
+      setIsLoading(false);
     }    
-    setIsLoading(false)
   };
   
   const switchAuthMode = ()=> setIsSignUpMode(prevState => !prevState);

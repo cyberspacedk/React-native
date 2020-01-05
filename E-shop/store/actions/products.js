@@ -27,9 +27,11 @@ export const fetchProducts = ()=> async dispatch => {
       dispatch({type: SET_PRODUCTS, products: loadedProducts}) 
 }
 
-export const deleteProduct = productId => async dispatch => {
+export const deleteProduct = productId => async (dispatch, getState) => {
   try{
-    const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/products/${productId}.json`, {
+    const {token} = getState().auth;
+
+    const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/products/${productId}.json?auth=${token}`, {
       method: 'DELETE' 
     })
 
@@ -44,11 +46,13 @@ export const deleteProduct = productId => async dispatch => {
   } 
 }
 
-export const createProduct = (title, description, imageUrl, price) => async dispatch => {
+export const createProduct = (title, description, imageUrl, price) => async (dispatch, getState) => {
     // can do async operation
   try{ 
+    const {token} = getState().auth;
+
     // store product to database
-    const response =  await fetch('https://e-shop-rn-mobile.firebaseio.com/products.json', {
+    const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/products.json?auth=${token}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, description, imageUrl, price })
@@ -75,9 +79,10 @@ export const createProduct = (title, description, imageUrl, price) => async disp
   }  
 } 
 
-export const updateProduct = (id, title, description, imageUrl) => async dispatch => { 
+export const updateProduct = (id, title, description, imageUrl) => async (dispatch, getState) => { 
   try{
-   const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/products/${id}.json`, {
+    const {token} = getState().auth;
+   const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/products/${id}.json?auth=${token}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, description, imageUrl })
@@ -93,4 +98,4 @@ export const updateProduct = (id, title, description, imageUrl) => async dispatc
   }catch{
     throw new Error('Something went wrong !');
   } 
-}   
+} 
