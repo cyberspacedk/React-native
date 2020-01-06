@@ -6,16 +6,16 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 
 export const fetchProducts = ()=> async (dispatch, getState) => { 
-  const {userId} = getState().auth;
+  const {userId} = getState().auth; 
   const response =  await fetch('https://e-shop-rn-mobile.firebaseio.com/products.json');  
    
-  const responseData = await response.json(); 
+  const responseData = await response.json();  
   const loadedProducts = [];
   
   Object.keys(responseData).forEach(prod => {
     const product = new Product(
       prod, 
-      'u1', 
+      responseData[prod].ownerId, 
       responseData[prod].title, 
       responseData[prod].imageUrl, 
       responseData[prod].description, 
@@ -24,7 +24,8 @@ export const fetchProducts = ()=> async (dispatch, getState) => {
 
     loadedProducts.push(product)
   })
-  const userProducts = loadedProducts.filter(product=> product.ownerId === userId)
+  const userProducts = loadedProducts.filter(product=> product.ownerId === userId); 
+
   dispatch({
     type: SET_PRODUCTS, 
     products: loadedProducts,
@@ -54,7 +55,7 @@ export const deleteProduct = productId => async (dispatch, getState) => {
 export const createProduct = (title, description, imageUrl, price) => async (dispatch, getState) => {
     // can do async operation
   try{ 
-    const {token} = getState().auth;
+    const {token, userId} = getState().auth;
 
     // store product to database
     const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/products.json?auth=${token}`, {

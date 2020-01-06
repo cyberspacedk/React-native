@@ -1,7 +1,14 @@
-import {API} from '../../constatnts/api';
+import {AsyncStorage} from 'react-native';
 
-export const SIGNUP = 'SIGNUP';
-export const LOGIN = 'LOGIN';
+import {API} from '../../constatnts/api';
+ 
+export const AUTHENTICATE = 'AUTHENTICATE';
+
+export const authenticate = (userId, token) => ({ 
+    type: AUTHENTICATE,
+    userId,
+    token 
+})
 
 export const signUp = (email, password) => {
   return async dispatch => {
@@ -35,13 +42,14 @@ export const signUp = (email, password) => {
       throw new Error(messageToShow)
     }
 
-    const resData = await response.json(); 
+    const {idToken, localId, expiresIn} = await response.json(); 
 
-    dispatch({ 
-      type: SIGNUP, 
-      token: resData.idToken, 
-      userId: resData.localId
-    });
+    dispatch(authenticate(idToken, localId));
+
+     // define expiration date of token
+     const expDate = new Date(new Date().getTime() + parseInt(expiresIn) * 1000); 
+     // store to device 
+     saveDataToStorage(idToken, localId, expDate)
   };
 };
 
@@ -78,13 +86,21 @@ export const logIn = (email, password) => {
       // after handling message throw error with this
       throw new Error(messageToShow)
     }
-
-    const resData = await response.json(); 
+ 
+    const {idToken, localId, expiresIn} = await response.json(); 
     
-    dispatch({ 
-      type: LOGIN, 
-      token: resData.idToken, 
-      userId: resData.localId 
-    });
+    dispatch(authenticate(idToken, localId));
+    // define expiration date of token
+    const expDate = new Date(new Date().getTime() + parseInt(expiresIn) * 1000); 
+    // store to device 
+    saveDataToStorage(idToken, localId, expDate)
   };
 };
+
+const saveDataToStorage = (token, userId, expDate) => {
+  AsyncStorage.setItem('userData',JSON.stringify({
+    token,
+    userId, 
+    expiryDate: expDate.toISOString()
+  }))
+}
