@@ -3,6 +3,7 @@ import {AsyncStorage} from 'react-native';
 import {API} from '../../constatnts/api';
  
 export const AUTHENTICATE = 'AUTHENTICATE';
+export const LOGOUT = 'LOGOUT';
 
 export const authenticate = (token, userId) => ({ 
     type: AUTHENTICATE,
@@ -54,8 +55,7 @@ export const signUp = (email, password) => {
 };
 
 
-export const logIn = (email, password) => {
-  return async dispatch => {
+export const logIn = (email, password) => async dispatch => {
     const response = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API}`,
       {
@@ -96,7 +96,8 @@ export const logIn = (email, password) => {
     // store to device 
     saveDataToStorage(idToken, localId, expDate)
   };
-};
+
+export const logout = () => ({ type: LOGOUT}); 
 
 const saveDataToStorage = (token, userId, expDate) => {
   AsyncStorage.setItem('userData',JSON.stringify({
