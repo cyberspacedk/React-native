@@ -20,17 +20,22 @@ const StartupScreen = props => {
     // get concrete data from userData object 
     const {token, userId, expiryDate} = JSON.parse(userData); 
     // create new Date from token expiration date 
-    const expDate = new Date(expiryDate);  
+    const expirationDate = new Date(expiryDate);  
     // if token expired or userId and token are empty push user to auth screen
-    if(expDate <= new Date() || !token || !userId){
+    if(expirationDate <= new Date() || !token || !userId){
       props.navigation.navigate('Auth')
       return;
     } 
+
+    // get ms time token and minus current time ms
+    const expirationTime = expirationDate.getTime() - new Date().getTime();
+    console.log("➡️: tryLogin -> expirationTime", expirationTime)
+
     // if all checks pass push user to Shop page
     props.navigation.navigate('Shop');
 
     // dispatch AUTH action to redux store
-    dispatch(authenticate(userId,token))
+    dispatch(authenticate(userId,token, expirationTime))
 
   }
 

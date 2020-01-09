@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Provider} from 'react-redux';
 import store from './store';
 // navigator
-import ShopNavigator from './navigation/ShopNavigator';
+import NavigationContainer from './navigation/NavigationContainer';
 
 // fonts tools 
 import {AppLoading} from 'expo';
@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <ShopNavigator /> 
+      <NavigationContainer /> 
     </Provider> 
   );
 } 

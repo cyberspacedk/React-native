@@ -90,11 +90,10 @@ const ShopNavigator = createDrawerNavigator({
   // let define custom component in drawer
   contentComponent: props => {
     const dispatch = useDispatch();
-    
+
     const handleLogout = () => {
       // shoot action logout
-      dispatch(logout());
-      props.navigation.navigate('Auth');
+      dispatch(logout()); 
     }
 
     return (
