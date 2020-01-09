@@ -69,6 +69,7 @@ const EditProductScreen = (props) => {
   
   // submit form memoized function
   const submitHandler = useCallback(async ()=> { 
+    
     // for convininience purposes destructure data in variables
     const {title, imageUrl, description, price} = formState.inputValues; 
 

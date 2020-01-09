@@ -4,7 +4,7 @@ import {API} from '../../constatnts/api';
  
 export const AUTHENTICATE = 'AUTHENTICATE';
 
-export const authenticate = (userId, token) => ({ 
+export const authenticate = (token, userId) => ({ 
     type: AUTHENTICATE,
     userId,
     token 
@@ -92,6 +92,7 @@ export const logIn = (email, password) => {
     dispatch(authenticate(idToken, localId));
     // define expiration date of token
     const expDate = new Date(new Date().getTime() + parseInt(expiresIn) * 1000); 
+    console.log("➡️: logIn -> expDate", expDate)
     // store to device 
     saveDataToStorage(idToken, localId, expDate)
   };
