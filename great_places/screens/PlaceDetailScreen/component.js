@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PlacesListScreen = () => (
+const PlaceDetailScreen = () => (
   <Screen>
     <Text>
-        Start
+        Detail
     </Text>
   </Screen>
 );
@@ -12,4 +12,4 @@ const PlacesListScreen = () => (
 const Screen = styled.View``;
 const Text = styled.Text``;
 
-export default PlacesListScreen;
+export default PlaceDetailScreen;

@@ -6,7 +6,7 @@ import { Platform } from 'react-native';
 // screens
 import PlacesListScreen from '../screens/PlacesListScreen';
 import PlaceDetailsScreen from '../screens/PlaceDetailScreen';
-import NewPlaceScreen from '../screens/NewPlaceScreen';
+import NewPlaceScreen from '../screens/NewPlacesScreen';
 import MapScreen from '../screens/MapScreen';
 
 import Colors from '../constants/colors';
