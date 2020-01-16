@@ -9,6 +9,11 @@ const PlaceDetailScreen = () => (
   </Screen>
 );
 
+PlaceDetailScreen.navigationOptions = nav => {
+  return {
+    headerTitle: nav.navigation.getParam('placeTitle')
+  }
+}
 const Screen = styled.View``;
 const Text = styled.Text``;
 

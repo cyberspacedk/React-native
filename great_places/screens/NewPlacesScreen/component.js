@@ -2,28 +2,32 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView} from 'react-native';
 
-import styled from 'styled-components';
 import {useDispatch} from 'react-redux';
 
-import {addPlace} from '../../store/actions/place';
+import ImagePicker from '../../components/ImagePicker';
 
+import {addPlace} from '../../store/actions/place';
+import {FormWrapper, Title, TitleInput, SaveButton} from './styles';
 import Colors from '../../constants/colors';
 
 const NewPlacesScreen = (props) => {
   const dispatch = useDispatch();
   
-  const [title, setTitle] = useState('')
+  const [title, setTitle] = useState('')  
 
-  const titleChangeHandler = text => setTitle(text);
+  const titleChangeHandler = text => setTitle(text); 
+  
   const savePlaceHandler = () => {
     dispatch(addPlace(title));
     props.navigation.goBack();
   } 
+
   return(
     <ScrollView>
       <FormWrapper>
-        <Title onChangeText={titleChangeHandler} value={title}>Title</Title>
-        <TitleInput />
+        <Title>Title</Title>
+        <TitleInput onChangeText={titleChangeHandler} value={title} />
+        <ImagePicker />
         <SaveButton 
           title="Save Place" 
           color={Colors.primary} 
@@ -32,7 +36,7 @@ const NewPlacesScreen = (props) => {
       </FormWrapper>
     </ScrollView> 
 )};
-
+ 
 NewPlacesScreen.navigationOptions = {
   headerTitle: 'Add New Place'
 }
@@ -42,21 +46,5 @@ NewPlacesScreen.propTypes = {
     goBack: PropTypes.func.isRequired
   }).isRequired
 };
-
-const FormWrapper = styled.View`
-  margin: 30px; 
-`;
-const Title = styled.Text`
-  font-size: 18px;
-  margin-bottom: 15px;
-`;
-const TitleInput = styled.TextInput`
-  border-bottom-color: #cccccc;
-  border-bottom-width: 1px;
-  margin-bottom: 15px;
-  padding: 4px 2px; 
-`;
-const SaveButton = styled.Button`
-`;
 
 export default NewPlacesScreen;

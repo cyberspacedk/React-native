@@ -25,7 +25,8 @@ module.exports = {
     'comma-dangle': ['error', 'never'],
 
     'react/jsx-filename-extension': 0,
-    
+    "react/display-name": [0, { "ignoreTranspilerName": false }],
+
     'jsx-a11y/anchor-is-valid': 0,
     'jsx-a11y/label-has-associated-control': 0,
     'jsx-a11y/label-has-for': 0,
