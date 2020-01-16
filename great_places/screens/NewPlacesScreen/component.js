@@ -1,15 +1,24 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import {ScrollView} from 'react-native';
 
 import styled from 'styled-components';
+import {useDispatch} from 'react-redux';
+
+import {addPlace} from '../../store/actions/place';
+
 import Colors from '../../constants/colors';
 
-const NewPlacesScreen = () => {
+const NewPlacesScreen = (props) => {
+  const dispatch = useDispatch();
+  
   const [title, setTitle] = useState('')
 
   const titleChangeHandler = text => setTitle(text);
-  const savePlaceHandler = () => {}
-  
+  const savePlaceHandler = () => {
+    dispatch(addPlace(title));
+    props.navigation.goBack();
+  } 
   return(
     <ScrollView>
       <FormWrapper>
@@ -27,6 +36,12 @@ const NewPlacesScreen = () => {
 NewPlacesScreen.navigationOptions = {
   headerTitle: 'Add New Place'
 }
+
+NewPlacesScreen.propTypes = {
+  navigation: PropTypes.shape({
+    goBack: PropTypes.func.isRequired
+  }).isRequired
+};
 
 const FormWrapper = styled.View`
   margin: 30px; 
