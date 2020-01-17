@@ -7,7 +7,7 @@ import {Container, ImageContainer, ImageLabel, Image, UploadButton} from './styl
 
 import Colors from '../../constants/colors';
 
-const ImagePicker = () => {
+const ImagePicker = (props) => {
   const [pickedImage, setPicketImage] = useState(null);
 
   const verifyPermissions = async ()=>{
@@ -32,7 +32,8 @@ const ImagePicker = () => {
       aspect: [16,9],
       quality: 0.5
     });
-    setPicketImage(image.uri) 
+    setPicketImage(image.uri);
+    props.onImageTake(image.uri);
   };
 
   return (

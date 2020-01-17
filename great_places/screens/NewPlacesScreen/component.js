@@ -13,22 +13,23 @@ import Colors from '../../constants/colors';
 const NewPlacesScreen = (props) => {
   const dispatch = useDispatch();
   
-  const [title, setTitle] = useState('')  
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState(null);
 
   const titleChangeHandler = text => setTitle(text); 
   
   const savePlaceHandler = () => {
-    dispatch(addPlace(title));
+    dispatch(addPlace(title, image)); 
     props.navigation.goBack();
   } 
-
+  const onImageTake = (imageUri) => setImage(imageUri);
   return(
     <ScrollView>
       <FormWrapper>
         <Title>Title</Title>
         <TitleInput onChangeText={titleChangeHandler} value={title} />
-        <ImagePicker />
-        <SaveButton 
+        <ImagePicker onImageTake={onImageTake} />
+        <SaveButton  
           title="Save Place" 
           color={Colors.primary} 
           onPress={savePlaceHandler}
