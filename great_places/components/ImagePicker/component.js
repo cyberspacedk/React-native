@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Proptypes from 'prop-types';
 import {Alert} from 'react-native';
 import * as Picker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -52,6 +53,9 @@ const ImagePicker = (props) => {
       />
     </Container>
   )
+}
+ImagePicker.propTypes = {
+  onImageTake: Proptypes.func.isRequired
 }
 
 export default ImagePicker

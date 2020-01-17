@@ -9,9 +9,12 @@ export default (state=initialState, action)=> {
   switch(action.type){
     case ADD_PLACE : {
       const place = new Place(
-        new Date().toString(), 
+        action.placeData.id, 
         action.placeData.title, 
-        action.placeData.imageUri
+        action.placeData.imageUri,
+        'dummy',
+        7.7,
+        5.5
         );
       return {
         placesList: [...state.placesList, place]
