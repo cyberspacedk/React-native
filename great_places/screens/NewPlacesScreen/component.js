@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView} from 'react-native';
-
+import {ScrollView} from 'react-native'; 
 import {useDispatch} from 'react-redux';
 
 import ImagePicker from '../../components/ImagePicker';
+import LocationPicker from '../../components/LocationPicker';
 
 import {addPlace} from '../../store/actions/place';
+
 import {FormWrapper, Title, TitleInput, SaveButton} from './styles';
 import Colors from '../../constants/colors';
 
@@ -29,10 +30,11 @@ const NewPlacesScreen = (props) => {
         <Title>Title</Title>
         <TitleInput onChangeText={titleChangeHandler} value={title} />
         <ImagePicker onImageTake={onImageTake} />
+        <LocationPicker />
         <SaveButton  
           title="Save Place" 
           color={Colors.primary} 
-          onPress={savePlaceHandler}
+          onPress={savePlaceHandler} 
         />
       </FormWrapper>
     </ScrollView> 

@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-
-import Colors from '../../constants/colors';
-
+ 
 export const Container = styled.View`
   align-items: center;
 `;
