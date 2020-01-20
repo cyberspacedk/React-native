@@ -1,7 +1,8 @@
 import * as FileSystem from 'expo-file-system';
-import {insertPlace} from '../../db/methods';
+import {insertPlace, getPlaces} from '../../db/methods';
 
 export const ADD_PLACE = 'ADD_PLACE';
+export const SET_PLACES = 'SET_PLACES';
 
 export const addPlace = (title, imageUri) => async dispatch => {
   // get image name 
@@ -22,4 +23,17 @@ export const addPlace = (title, imageUri) => async dispatch => {
   }catch(err){
     throw err
   }  
+}
+
+export const loadPlaces = () => async dispatch => {
+  try {
+    const result = await getPlaces(); 
+
+    dispatch({
+      type: SET_PLACES,
+      places: result.rows._array
+    });
+    }catch(error){
+      throw error
+    }  
 }

@@ -1,4 +1,4 @@
-import {ADD_PLACE} from '../actions/place';
+import {ADD_PLACE, SET_PLACES} from '../actions/place';
 import Place from '../../models/place'
 
 const initialState = {
@@ -20,6 +20,10 @@ export default (state=initialState, action)=> {
         placesList: [...state.placesList, place]
       }
     }
+    case  SET_PLACES: 
+      return {
+        placesList: action.places
+      }
     default: 
       return state;
   }

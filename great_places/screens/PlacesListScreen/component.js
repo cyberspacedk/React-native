@@ -1,8 +1,10 @@
-import React from 'react'; 
+import React, {useEffect} from 'react'; 
 import PropTypes from 'prop-types';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons'
 import {Platform} from 'react-native';
-import {useSelector} from 'react-redux'; 
+import {useSelector, useDispatch} from 'react-redux'; 
+
+import {loadPlaces} from '../../store/actions/place';
 
 import CustomHeaderButton from '../../components/HeaderButton'
 import PlaceItem from '../../components/PlaceItem';
@@ -13,7 +15,12 @@ const android = Platform.OS === 'android';
 const icon = android ? 'md-add' : 'ios-add';
 
 const PlacesListScreen = (props) => {
+  const dispatch = useDispatch();
+
+  useEffect(()=> { dispatch(loadPlaces())},[dispatch]);
+
   const placesList = useSelector(store=> store.places.placesList); 
+  
   return ( 
     <FlatList 
       data={placesList} 

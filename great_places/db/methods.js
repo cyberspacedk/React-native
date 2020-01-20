@@ -20,3 +20,21 @@ export const insertPlace =  (title, imageUri, address, lat, lng) => {
  
   return promise;
 }
+
+export const getPlaces = () => {
+  const promise = new Promise((resolve, reject)=> {
+
+    db.transaction((tx)=> {
+
+      tx.executeSql(
+        'SELECT * FROM  places', 
+        [], 
+        (_, result)=> {resolve(result)},
+        (_,error)=> {reject(error)}
+      )
+    }) 
+
+  });
+ 
+  return promise;
+}
