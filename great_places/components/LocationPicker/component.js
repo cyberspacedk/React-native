@@ -3,8 +3,10 @@ import { ActivityIndicator, Alert } from 'react-native'
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
-import {LocationScreen, EmptyMessage, GetLocationButton, MapPreview} from './styles';
+import {LocationScreen, EmptyMessage, GetLocationButton} from './styles';
 import Colors from '../../constants/colors';
+
+import MapPreview from '../MapPreview';
 
 const LocationPicker = (props) => {
   const [loading, setLoading] = useState(false);
@@ -45,15 +47,20 @@ const LocationPicker = (props) => {
 
   return (
     <LocationScreen>
-      <MapPreview>
+      <MapPreview 
+        location={location} 
+        mapType="" 
+        width="800" 
+        height="400"  
+      >
         {loading ? <ActivityIndicator size="small" />
-          :  (
-            <EmptyMessage>
-                No location chosen yet!
-            </EmptyMessage>
-            )
-        }  
-      </MapPreview> 
+      :  (
+        <EmptyMessage>
+            No location chosen yet!
+        </EmptyMessage>
+        )
+    }  
+      </MapPreview>
       <GetLocationButton 
         title="Get User Location" 
         color={Colors.primary}
