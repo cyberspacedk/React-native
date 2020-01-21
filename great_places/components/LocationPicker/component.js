@@ -1,9 +1,10 @@
-import React , {useState} from 'react'
+import React , {useState} from 'react';
+import PropTypes from 'prop-types';
 import { ActivityIndicator, Alert } from 'react-native'
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
-import {LocationScreen, EmptyMessage, GetLocationButton} from './styles';
+import {LocationScreen, EmptyMessage, GetLocationButton, PickOnMapButton, ButtonContainer} from './styles';
 import Colors from '../../constants/colors';
 
 import MapPreview from '../MapPreview';
@@ -43,7 +44,11 @@ const LocationPicker = (props) => {
     }finally{
       setLoading(false)
     }
-  } 
+  };
+
+  const pickOnMaphandler = ()=> {
+    props.navigation.navigate('Map');
+  }
 
   return (
     <LocationScreen>
@@ -51,23 +56,39 @@ const LocationPicker = (props) => {
         location={location} 
         mapType="" 
         width="800" 
-        height="400"  
+        height="400" 
+        onPress={pickOnMaphandler} 
       >
         {loading ? <ActivityIndicator size="small" />
       :  (
+        // eslint-disable-next-line react-native/no-raw-text
         <EmptyMessage>
             No location chosen yet!
         </EmptyMessage>
         )
     }  
       </MapPreview>
-      <GetLocationButton 
-        title="Get User Location" 
-        color={Colors.primary}
-        onPress={getLocationHandler}
-      />
+      <ButtonContainer>
+        <GetLocationButton  
+          title="Get User Location" 
+          color={Colors.primary}
+          onPress={getLocationHandler}
+        />
+        <PickOnMapButton 
+          title="Pick on Map" 
+          color={Colors.primary}
+          onPress={pickOnMaphandler} 
+        />
+      </ButtonContainer>
+      
     </LocationScreen>
   )
+};
+
+LocationPicker.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired
+  }).isRequired
 }
 
 export default LocationPicker;

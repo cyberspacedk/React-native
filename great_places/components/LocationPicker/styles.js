@@ -18,6 +18,18 @@ export const EmptyMessage = styled.Text`
 
 `;
 
+export const ButtonContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 export const GetLocationButton = styled.Button`
-  width: 100px;
+  width: 200px;
+  text-align: center;
+`;
+
+export const PickOnMapButton = styled.Button`
+  width: 200px;
+  text-align: center; 
 `;

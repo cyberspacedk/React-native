@@ -9,7 +9,7 @@ export const Image = styled.Image`
    height: 100%;
 `;
 
-export const MapPreviewScreen = styled.View`
+export const MapPreviewScreen = styled.TouchableOpacity`
   margin: 20px 0;
   width: 100%;
   height: 150px;

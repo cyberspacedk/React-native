@@ -11,7 +11,7 @@ import {addPlace} from '../../store/actions/place';
 import {FormWrapper, Title, TitleInput, SaveButton} from './styles';
 import Colors from '../../constants/colors';
 
-const NewPlacesScreen = (props) => {
+const NewPlacesScreen = ({navigation}) => {
   const dispatch = useDispatch();
   
   const [title, setTitle] = useState('');
@@ -21,7 +21,7 @@ const NewPlacesScreen = (props) => {
   
   const savePlaceHandler = () => {
     dispatch(addPlace(title, image)); 
-    props.navigation.goBack();
+    navigation.goBack();
   } 
   const onImageTake = (imageUri) => setImage(imageUri);
   return(
@@ -30,7 +30,7 @@ const NewPlacesScreen = (props) => {
         <Title>Title</Title>
         <TitleInput onChangeText={titleChangeHandler} value={title} />
         <ImagePicker onImageTake={onImageTake} />
-        <LocationPicker />
+        <LocationPicker navigation={navigation} />
         <SaveButton  
           title="Save Place" 
           color={Colors.primary} 
