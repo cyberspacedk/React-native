@@ -9,7 +9,7 @@ import Colors from '../../constants/colors';
 
 import MapPreview from '../MapPreview';
 
-const LocationPicker = ({navigation}) => {
+const LocationPicker = ({navigation, onLocationPicked}) => {
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState(null);
 
@@ -17,9 +17,10 @@ const LocationPicker = ({navigation}) => {
 
   useEffect(()=> {
     if(pickedLocation){
-      setLocation(pickedLocation)
+      setLocation(pickedLocation);
+      onLocationPicked(pickedLocation);
     }
-  }, [pickedLocation])
+  }, [pickedLocation, onLocationPicked])
 
   const verifyPermission = async ()=> {
     const result =  await Permissions.askAsync(Permissions.LOCATION);
@@ -32,7 +33,7 @@ const LocationPicker = ({navigation}) => {
       );
       return false;
      }
-     return true;
+     return true; 
   };
 
   const getLocationHandler = async () => {
@@ -43,6 +44,11 @@ const LocationPicker = ({navigation}) => {
       const {coords: {latitude, longitude}} = await Location.getCurrentPositionAsync({ timeout: 5000 }) 
       
       setLocation({ 
+        latitude, 
+        longitude 
+      });
+
+      onLocationPicked({
         latitude, 
         longitude 
       });
@@ -97,7 +103,8 @@ LocationPicker.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired, 
     getParam: PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
+  onLocationPicked: PropTypes.func.isRequired
 }
 
 export default LocationPicker;

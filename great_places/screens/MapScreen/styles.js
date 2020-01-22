@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Platform } from 'react-native';
 import Colors from '../../constants/colors';
 
-const Screen = styled.View``;
+// const Screen = styled.View``;
 
 export const Text = styled.Text`
   font-size: 16px;

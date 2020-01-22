@@ -7,22 +7,31 @@ const initialState = {
 
 export default (state=initialState, action)=> {
   switch(action.type){
+
     case ADD_PLACE : {
       const place = new Place(
         action.placeData.id, 
         action.placeData.title, 
         action.placeData.imageUri,
-        'dummy',
-        7.7,
-        5.5
+        action.placeData.address,
+        action.placeData.coords.latitude,
+        action.placeData.coords.longitude
         );
       return {
         placesList: [...state.placesList, place]
-      }
+      } 
     }
+
     case  SET_PLACES: 
       return {
-        placesList: action.places
+        placesList: action.places.map(place => new Place(
+         place.id, 
+          place.title, 
+          place.imageUri, 
+          place.address, 
+          place.lat, 
+          place.lng
+          ))
       }
     default: 
       return state;

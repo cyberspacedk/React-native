@@ -19,18 +19,19 @@ const PlacesListScreen = (props) => {
 
   useEffect(()=> { dispatch(loadPlaces())},[dispatch]);
 
-  const placesList = useSelector(store=> store.places.placesList); 
+  const placesList = useSelector(store=> store.places.placesList);  
   
   return ( 
     <FlatList 
       data={placesList} 
-      renderItem={({item})=> (
+      renderItem={({item})=>(
         <PlaceItem 
           {...item}
           onSelect={()=> props.navigation.navigate('PlaceDetails', {
             placeId: item.id,
             placeTitle: item.title,
-            placeImage: item.imageUri
+            placeImage: item.imageUri, 
+            placeAddress: item.address
           })}
         />
       )}

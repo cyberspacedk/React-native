@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView} from 'react-native'; 
 import {useDispatch} from 'react-redux';
@@ -16,22 +16,28 @@ const NewPlacesScreen = ({navigation}) => {
   
   const [title, setTitle] = useState('');
   const [image, setImage] = useState(null);
+  const [location, setLocation] = useState(null);
 
   const titleChangeHandler = text => setTitle(text); 
   
   const savePlaceHandler = () => {
-    dispatch(addPlace(title, image)); 
+    dispatch(addPlace(title, image, location)); 
     navigation.goBack();
-  } 
+  };
+
+  const locationPickHandler = useCallback((location) => {
+    setLocation(location);
+  },[]);
+ 
   const onImageTake = (imageUri) => setImage(imageUri);
-  
+
   return(
     <ScrollView>
       <FormWrapper>
         <Title>Title</Title>
         <TitleInput onChangeText={titleChangeHandler} value={title} />
         <ImagePicker onImageTake={onImageTake} />
-        <LocationPicker navigation={navigation} />
+        <LocationPicker navigation={navigation} onLocationPicked={locationPickHandler} />
         <SaveButton  
           title="Save Place" 
           color={Colors.primary} 
@@ -40,7 +46,7 @@ const NewPlacesScreen = ({navigation}) => {
       </FormWrapper>
     </ScrollView> 
 )};
- 
+  
 NewPlacesScreen.navigationOptions = {
   headerTitle: 'Add New Place'
 }
