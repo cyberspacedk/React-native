@@ -24,6 +24,7 @@ const NewPlacesScreen = ({navigation}) => {
     navigation.goBack();
   } 
   const onImageTake = (imageUri) => setImage(imageUri);
+  
   return(
     <ScrollView>
       <FormWrapper>
