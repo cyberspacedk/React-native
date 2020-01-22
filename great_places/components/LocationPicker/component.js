@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { ActivityIndicator, Alert } from 'react-native'
 import * as Location from 'expo-location';
@@ -9,9 +9,17 @@ import Colors from '../../constants/colors';
 
 import MapPreview from '../MapPreview';
 
-const LocationPicker = (props) => {
+const LocationPicker = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState(null);
+
+  const pickedLocation =  navigation.getParam('location'); 
+
+  useEffect(()=> {
+    if(pickedLocation){
+      setLocation(pickedLocation)
+    }
+  }, [pickedLocation])
 
   const verifyPermission = async ()=> {
     const result =  await Permissions.askAsync(Permissions.LOCATION);
@@ -47,7 +55,7 @@ const LocationPicker = (props) => {
   };
 
   const pickOnMaphandler = ()=> {
-    props.navigation.navigate('Map');
+    navigation.navigate('Map');
   }
 
   return (
@@ -87,7 +95,8 @@ const LocationPicker = (props) => {
 
 LocationPicker.propTypes = {
   navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired, 
+    getParam: PropTypes.func.isRequired
   }).isRequired
 }
 
