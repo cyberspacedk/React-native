@@ -5,7 +5,7 @@ import MapPreview from '../../components/MapPreview';
 
 const PlaceDetailScreen = ({navigation}) => {
   const placeId = navigation.getParam('placeId');
-  const place = useSelector(state=> state.places.placesList.find(item=> item.id === placeId)); 
+  const place = useSelector(state=> state.places.placesList.find(item=> item.id === placeId));  
 
   const placeLocation = {
     latitude: place.latitude,
@@ -18,7 +18,12 @@ const PlaceDetailScreen = ({navigation}) => {
       <Image source={{uri: place.imageUri}} />
       <DetailScreen>
         <Address>{place.address}</Address>
-        <MapPreview location={placeLocation} />
+        <MapPreview 
+          mapType="" 
+          width="800" 
+          height="400" 
+          location={placeLocation}
+        />
       </DetailScreen>
     </ScrollView>
 )};

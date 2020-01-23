@@ -22,9 +22,9 @@ export const addPlace = (title, imageUri, location) => async dispatch => {
   const address = responseData.results[0].formatted_address; 
 
   // get image name 
-  const fileName = imageUri.split('/').pop();
+  const fileName = imageUri.split('/').pop(); 
   // get new path in document directory  
-  const newPath = FileSystem.documentDirectory + fileName;
+  const newPath = FileSystem.documentDirectory + fileName; 
 
   try{
     // call moveAsyc method that moves old path and store new path
@@ -34,7 +34,7 @@ export const addPlace = (title, imageUri, location) => async dispatch => {
     });
     
     // insert data to db
-    const dbresult = await insertPlace(title, imageUri, address,latitude, longitude);   
+    const dbresult = await insertPlace(title, newPath, address,latitude, longitude);   
     
     // shoot action if all previous operation will succeed
     dispatch({ type: ADD_PLACE, placeData: { 

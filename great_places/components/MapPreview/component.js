@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Image, MapPreviewScreen} from './styles';
 import {API} from '../../env';
 
-const  MapPreview = ({ onPress, location, mapType, width, height, children }) => {   
+const  MapPreview = ({ onPress, location, mapType, width, height, children }) => {  
 
 //  link to image 
   let imagePreviewUrl; 
