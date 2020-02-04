@@ -35,7 +35,7 @@ export const fetchProducts = ()=> async (dispatch, getState) => {
 
 export const deleteProduct = productId => async (dispatch, getState) => {
   try{
-    const {token, userId} = getState().auth;
+    const {token} = getState().auth;
 
     const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/products/${productId}.json?auth=${token}`, {
       method: 'DELETE' 

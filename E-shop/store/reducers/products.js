@@ -1,10 +1,6 @@
-import PRODUCTS from '../../data/dummy-data';  
 import {DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT, SET_PRODUCTS} from '../actions/products';
 import Product from '../../models/product';
-
-// grab products concrete user
-const userOneProducts = PRODUCTS.filter(product=> product.ownerId === 'u1');
-
+ 
 const initialState = {
   avalaibleProducts: [],
   userProducts: [] 
@@ -18,7 +14,7 @@ export default (state = initialState, action )=> {
         avalaibleProducts: action.products,
         userProducts: action.userProducts
       }
-    };
+    }
  
     case DELETE_PRODUCT:{
       const updatedUserProducts = state.avalaibleProducts.filter(product=> product.id !== action.productId);  
@@ -36,7 +32,7 @@ export default (state = initialState, action )=> {
       return {
         ...state,
         avalaibleProducts: state.avalaibleProducts.concat(newProduct),
-        userProducts: state.avalaibleProducts.concat(newProduct),
+        userProducts: state.avalaibleProducts.concat(newProduct)
       };
     }
 

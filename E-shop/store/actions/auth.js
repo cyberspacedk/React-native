@@ -103,7 +103,6 @@ export const logout = () => {
   return { type: LOGOUT}; 
 }
 
-
 // HELPER FUNCTIONS -----
 
 // SAVE DATA TO DEVICE STORAGE
@@ -115,16 +114,13 @@ const saveDataToStorage = (token, userId, expDate) => {
   }))
 }
 
-// LOGOUT HANDLERS 
-
+// LOGOUT HANDLERS  
 const clearLogoutTimer = ()=> {
   if(timerId){
     clearTimeout(timerId)
   }
 };
 
-const setLogoutTimer = expirationTime => async dispatch => {
-console.log("➡️: expirationTime", expirationTime)
-  
+const setLogoutTimer = expirationTime => async dispatch => {  
   setTimeout(()=> dispatch(logout), expirationTime);
 }

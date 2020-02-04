@@ -1,4 +1,3 @@
-import moment from 'moment'; 
 import Order from '../../models/order';
 
 import {ADD_ORDER, GET_ORDERS} from '../actions/orders';

@@ -10,8 +10,8 @@ const initialState = {
 
 export default (state=initialState, action) =>{
   switch(action.type){
-// add item to cart ==============
-    case ADD_TO_CART : 
+    
+    case ADD_TO_CART : {
     // get data from added product
       const addedProduct = action.product;
       const productPrice = addedProduct.price;
@@ -45,9 +45,9 @@ export default (state=initialState, action) =>{
           [addedProduct.id]: updatedOrNewCartItem
         },
         total: state.total + productPrice
-      };
+      };}
 // remove item from cart ==============
-    case REMOVE_FROM_CART: 
+    case REMOVE_FROM_CART: {
     // define quantity of ONE product in cart
       const {productId} = action;
       const currentItem = state.items[productId] 
@@ -75,12 +75,12 @@ export default (state=initialState, action) =>{
         ...state,
         items: updatedCartItems,
         total: state.total - currentItem.productPrice
-      };
+      };}
 // when order has been added need to clear cart
     case ADD_ORDER:
       return initialState;
 //  if admin remove product, it should be deleted from cart also 
-    case DELETE_PRODUCT: 
+    case DELETE_PRODUCT: {
     if(!state.items[action.productId]){
       return state;
     }
@@ -95,8 +95,7 @@ export default (state=initialState, action) =>{
           ...updatedItems
         },
         total: state.total - sumDeleted
-      }
-// default return
+      } }
     default: 
       return state;
   }

@@ -1,11 +1,13 @@
-import React, {useEffect} from 'react'
-import { View, Text, ActivityIndicator, AsyncStorage, StyleSheet} from 'react-native'
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
+import { ActivityIndicator, AsyncStorage} from 'react-native'
 import {useDispatch} from 'react-redux';
- 
+import styled from 'styled-components';
+
 import Colors from '../constatnts/Colors';
 import { authenticate } from '../store/actions/auth';
 
-const StartupScreen = props => {
+const StartupScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   // async function for handling expiration token
@@ -14,7 +16,7 @@ const StartupScreen = props => {
     const userData = await AsyncStorage.getItem('userData');  
     // if data doesnt exist push user to auth screen
     if(!userData) {
-      props.navigation.navigate('Auth')
+      navigation.navigate('Auth')
       return;
     } 
     // get concrete data from userData object 
@@ -23,16 +25,15 @@ const StartupScreen = props => {
     const expirationDate = new Date(expiryDate);  
     // if token expired or userId and token are empty push user to auth screen
     if(expirationDate <= new Date() || !token || !userId){
-      props.navigation.navigate('Auth')
+      navigation.navigate('Auth')
       return;
     } 
 
     // get ms time token and minus current time ms
-    const expirationTime = expirationDate.getTime() - new Date().getTime();
-    console.log("➡️: tryLogin -> expirationTime", expirationTime)
+    const expirationTime = expirationDate.getTime() - new Date().getTime(); 
 
     // if all checks pass push user to Shop page
-    props.navigation.navigate('Shop');
+    navigation.navigate('Shop');
 
     // dispatch AUTH action to redux store
     dispatch(authenticate(userId,token, expirationTime))
@@ -44,19 +45,22 @@ const StartupScreen = props => {
 
   // when token logic checks show spinner
   return (
-    <View style={styles.screen}>
-       <ActivityIndicator size="large" color={Colors.primary}/>
-    </View>
+    <Screen>
+      <ActivityIndicator size="large" color={Colors.primary} />
+    </Screen>
   )
-}
+} 
 
-const styles = StyleSheet.create({
-  screen : {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
-
+const Screen = styled.View`
+  display: flex;
+  align-items: center;
+  flex:1;
+  justify-content: center;
+`; 
  
+StartupScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired
+  }).isRequired
+}
 export default StartupScreen

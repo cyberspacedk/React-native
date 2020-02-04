@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useCallback, useReducer} from 'react'
-import { View, Text, Button, StyleSheet, ScrollView, Platform, Alert, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+import PropTypes from 'prop-types';
+import { ScrollView, Platform, Alert, ActivityIndicator } from 'react-native'
 import {HeaderButtons , Item} from 'react-navigation-header-buttons';
-import HeaderButton from '../../components/UI/HeaderButton';
 import {useSelector, useDispatch} from 'react-redux';
+import styled from 'styled-components';
 
-import Input from '../../components/UI/Input';
+import HeaderButton from '../../components/UI/HeaderButton';
+import Input from '../../components/UI/Input'; 
+import Colors from '../../constatnts/Colors'; 
 
 import {createProduct, updateProduct} from '../../store/actions/products';
-
-import Colors from '../../constatnts/Colors'; 
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -34,7 +35,7 @@ const formReducer = (state, {type, name, value, isValid}) => {
   return state;
 }
 
-const EditProductScreen = (props) => {
+const EditProductScreen = ({navigation}) => {
   // extract dispatch
   const dispatch = useDispatch();
   // handling async requests
@@ -47,7 +48,7 @@ const EditProductScreen = (props) => {
   },[isError]);
 
   // if we have a productId that means we in a Edit screen, otherwise we in a Add product screen
-  const productId = props.navigation.getParam('productId'); 
+  const productId = navigation.getParam('productId'); 
   const editedProduct = useSelector(state=> state.products.userProducts.find(product=> product.id === productId)); 
   
   // define initial state as second argument, which avaliable in formState variable
@@ -76,18 +77,18 @@ const EditProductScreen = (props) => {
     if(!formState.formIsValid){ 
       Alert.alert('Wrong input!', 'Please check the errors in the form!', [{text: 'Okay'}])
       return
-    };
+    }
 
     setIsError(false);
     setIsLoading(true);
     try{
       if (editedProduct){
         // if product exist dispatch updating action
-         await dispatch(updateProduct(productId, title ,description, imageUrl ))
+        await dispatch(updateProduct(productId, title ,description, imageUrl ))
       }else{
-          await dispatch(createProduct(title ,description, imageUrl, +price))
+        await dispatch(createProduct(title ,description, imageUrl, +price))
       }
-      props.navigation.goBack(); 
+      navigation.goBack(); 
     }catch{
       setIsError(true);
     }  
@@ -97,7 +98,7 @@ const EditProductScreen = (props) => {
  
   // lifecycle
   useEffect(()=> {
-    props.navigation.setParams({submit: submitHandler})
+    navigation.setParams({submit: submitHandler})
   }, [submitHandler])
 
   // handler
@@ -114,16 +115,16 @@ const EditProductScreen = (props) => {
   // show spinner 
   if(isLoading){
     return (
-      <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" color={Colors.primary}/>
-      </View>
+      <Spinner>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </Spinner>
     )
   } 
 
   return (
-    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100} style={{flex:1}}>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100}>
       <ScrollView>
-        <View style={styles.form}>  
+        <FormScreen>  
 
           <Input 
             name="title"
@@ -181,7 +182,7 @@ const EditProductScreen = (props) => {
             min={5}
           />   
 
-        </View> 
+        </FormScreen> 
       </ScrollView> 
     </KeyboardAvoidingView>
   )
@@ -205,22 +206,24 @@ EditProductScreen.navigationOptions = nav => {
   } 
 }
 
-const styles = StyleSheet.create({
-   form: {
-     margin: 20,
-   },
-   formControl : {
-     width: '100%'
-   },
-   label: {
-     fontFamily: 'open-sans-bold',
-     marginVertical: 8
-   },
-   input: {
-     padding: 5,
-     borderBottomColor: '#ccc',
-     borderBottomWidth: 1
-   }
-})
+const KeyboardAvoidingView = styled.KeyboardAvoidingView`
+  flex:1;
+`
+const FormScreen = styled.View`
+  margin: 20px;
+`;
 
+const Spinner = styled.View`
+  flex:1;
+  justify-content: center;
+  align-items: center;
+` 
+
+EditProductScreen.propTypes = {
+  navigation: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+    setParams: PropTypes.func.isRequired,
+    getParam: PropTypes.func.isRequired
+  }).isRequired
+}
 export default EditProductScreen

@@ -1,26 +1,23 @@
- import React from 'react'
- import { View, StyleSheet } from 'react-native'
+import React from 'react'
+import PropTypes from 'prop-types'
+
+ import styled from 'styled-components'; 
  
  const Card = ({children, style}) => {
    return (
-     <View style={{...styles.card, ...style}}> 
+     <Screen style={{...style}}> 
        {children}
-     </View>
+     </Screen>
    )
  }
 
- const styles = StyleSheet.create({
-    card: {
-      shadowColor: 'black',
-      shadowOpacity: .26,
-      textShadowOffset: { width: 0, height: 2},
-      shadowRadius: 8,
-      elevation: 5,
-      borderRadius: 5,
-      backgroundColor: '#fff',  
-    }
- })
- 
- 
- export default Card
+ const Screen = styled.View`
+  background-color: #fff;
+  border-radius: 5px;  
+ ` 
+Card.propTypes ={
+  children: PropTypes.node.isRequired,
+  style: PropTypes.shape({}).isRequired
+}
+export default Card
  

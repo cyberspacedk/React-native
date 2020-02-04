@@ -36,8 +36,7 @@ export const getOrders = () => async (dispatch, getState)=> {
 
   const {userId} = getState().auth; 
   const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/${userId}.json`);
-  const responseData = await response.json(); 
-  console.log("➡️: getOrders -> responseData", responseData)
+  const responseData = await response.json();  
 
   const loadedOrders = [];
       

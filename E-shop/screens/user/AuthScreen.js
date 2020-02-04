@@ -1,5 +1,7 @@
-import React, {useState, useReducer, useCallback, useEffect} from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, ScrollView, KeyboardAvoidingView, Button, Alert} from 'react-native'
+import React, {useState, useReducer, useCallback, useEffect} from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { ActivityIndicator, StyleSheet, ScrollView, Button, Alert} from 'react-native'
 import {LinearGradient} from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
 
@@ -84,8 +86,12 @@ const AuthScreen = (props) => {
   const switchAuthMode = ()=> setIsSignUpMode(prevState => !prevState);
     
   return (
-    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.screen}>
-      <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>  
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50}>
+      <LinearGradient
+        colors={['#ffedff', '#ffe3ff']}
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{ alignItems: 'center', height: '100%', justifyContent: 'center', width: '100%' }}
+      >  
         <Card style={styles.authContainer}>
           <ScrollView>
             <Input 
@@ -113,16 +119,16 @@ const AuthScreen = (props) => {
               initialValue=""
             />
 
-            <View style={styles.buttonContainer}>
+            <ButtonContainer style={styles.buttonContainer}>
               {isLoading ? 
                 <ActivityIndicator size="small" /> 
                   :
-                <Button title={isSignUpMode ? "SignUp":"Login"} color={Colors.primary} onPress={authHandler}/> 
+                <Button title={isSignUpMode ? "SignUp":"Login"} color={Colors.primary} onPress={authHandler} /> 
               }
-            </View>
-            <View style={styles.buttonContainer}>
-              <Button title={`Switch to ${isSignUpMode ? 'Login' : 'Sign Up'}`} color={Colors.accent} onPress={switchAuthMode}/> 
-            </View> 
+            </ButtonContainer>
+            <ButtonContainer style={styles.buttonContainer}>
+              <Button title={`Switch to ${isSignUpMode ? 'Login' : 'Sign Up'}`} color={Colors.accent} onPress={switchAuthMode} /> 
+            </ButtonContainer> 
           </ScrollView>
         </Card>
       </LinearGradient> 
@@ -130,33 +136,34 @@ const AuthScreen = (props) => {
   )
 } 
 
-
 AuthScreen.navigationOptions = { 
     headerTitle: 'Authenticate'  
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
+const styles = {
   authContainer: {
-    width: '80%',
-    maxWidth: 400,
-    height: '50%',
+    height: '70%',
     maxHeight: 400,
-    padding: 20
-  },
-  gradient: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  buttonContainer: {
-    marginTop: 10
-  }
-})
+    maxWidth: 420,
+    padding: 20,
+    width: '90%'
+  }  
+};
+
+const KeyboardAvoidingView = styled.KeyboardAvoidingView`
+  align-items: center;
+  flex:1;
+  justify-content: center; 
+`;
+
+const ButtonContainer = styled.View`
+  margin-top: 10px;
+`
+  
+AuthScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired
+  }).isRequired
+}
 
 export default AuthScreen
