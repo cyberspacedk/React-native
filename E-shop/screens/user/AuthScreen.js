@@ -1,7 +1,7 @@
 import React, {useState, useReducer, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { ActivityIndicator, StyleSheet, ScrollView, Button, Alert} from 'react-native'
+import { ActivityIndicator, ScrollView, Button, Alert} from 'react-native'
 import {LinearGradient} from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
 

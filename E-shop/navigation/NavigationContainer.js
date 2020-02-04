@@ -19,11 +19,10 @@ const NavigationContainer = () => {
       navigatorRef.current.dispatch(NavigationActions.navigate({
         routeName: 'Auth'
       }))
-    }
-    console.log("➡️: NavigationContainer -> isAuth", isAuth)
+    } 
   }, [isAuth])
 
-  return  <ShopNavigator ref={navigatorRef}/>
+  return  <ShopNavigator ref={navigatorRef} />
 }
 
 export default  NavigationContainer;

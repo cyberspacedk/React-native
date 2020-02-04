@@ -1,5 +1,7 @@
-import React, {useState} from 'react'
-import { View, Text, StyleSheet , Button} from 'react-native'
+import React, {useState} from 'react';
+import PropTypes from 'prop-types'
+import styled from 'styled-components';
+import {Button} from 'react-native'
 
 import CartItem from './CartItem';
 import Colors from '../../constatnts/Colors';
@@ -10,56 +12,58 @@ const OrderItem = ({total, date, items}) => {
  const handleShowDetails = ()=> {
     setShowDetails(prevState=> !prevState);
   }
+  const totalFixed = total && total.toFixed(2);
 
   return (
-    <View style={styles.orderItem}>
-      <View style={styles.summary}>
-        <Text style={styles.totalAmount}>{total.toFixed(2)}</Text>
-        <Text style={styles.date}>{date}</Text>
-      </View>
-      <Button color={Colors.primary} title={showDetails ? "Hide details" : "Show details"} onPress={handleShowDetails}/>
+    <OrderItemScreen>
+      <Summary>
+        <TotalAmount>{totalFixed}</TotalAmount>
+        <Date>{date}</Date>
+      </Summary>
+      <Button color={Colors.primary} title={showDetails ? "Hide details" : "Show details"} onPress={handleShowDetails} />
       {showDetails && (
-        <View style={styles.detailsItems}>
-          {items.map(item=> (<CartItem key={item.productId} {...item}/>))}
-        </View>
+        <Details>
+          {items.map(item=> (<CartItem key={item.productId} {...item} />))}
+        </Details>
       )}
-    </View>
+    </OrderItemScreen>
   )
 } 
 
-const styles = StyleSheet.create({
-   orderItem: {
-    shadowColor: 'black',
-    shadowOpacity: .26,
-    textShadowOffset: { width: 0, height: 2},
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 5,
-    backgroundColor: '#fff',   
-    margin: 20, 
-    padding: 10,
-    alignItems: 'center'
-   },
-   summary: {
-     flexDirection: 'row',
-     justifyContent: 'space-between',
-     alignItems: 'center',
-     width: '100%',
-     marginBottom: 10
-   },
-   totalAmount: {
-     fontFamily: 'open-sans-bold',
-     fontSize: 16, 
-  },
-  date: {
-    fontFamily: 'open-sans-bold',
-    fontSize: 16,
-    color: '#000'
-  },
-  detailsItems: {
-    width: '100%'
-  }
-})
+const OrderItemScreen = styled.View`
+  border-radius: 5px;
+  background-color: #fff;
+  margin: 20px;
+  padding: 10px;
+  align-items: center;
+`;
 
+const Summary = styled.View`
+   align-items: center;
+   flex-direction: row;
+   justify-content:space-between;
+   margin-bottom: 10px;
+   width: 100%; 
+`;
 
+const TotalAmount = styled.Text`
+  font-family: 'open-sans-bold';
+  font-size: 16;
+`;
+
+const Date = styled.Text`
+  color: #000;
+  font-family: 'open-sans-bold';
+  font-size: 16px;
+`;
+
+const Details = styled.View`
+  width: 100%;
+`;
+
+OrderItem.propTypes = {
+  total: PropTypes.number.isRequired, 
+  date: PropTypes.string.isRequired, 
+  items: PropTypes.arrayOf.isRequired
+}
 export default OrderItem

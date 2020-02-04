@@ -1,60 +1,80 @@
-import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
+/* eslint-disable react-native/no-raw-text */
+import React from 'react';
+import PropTypes from 'prop-types'
+import styled from 'styled-components';
+import { Platform} from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
 
-const CartItem = ({quantity, productTitle, productPrice,  sum, onRemove, deleteable}) => {
+const CartItem = ({quantity, productTitle, sum, onRemove, deleteable}) => {
+  const fixedSum = sum.toFixed(2);
   return (
-    <View style={styles.cartItem}>
+    <CardItemScreen>
 
-      <View style={styles.itemData}>
-        <Text style={styles.title}>{productTitle}</Text> 
-        <Text style={styles.quantity}>{quantity}</Text>
-      </View>
+      <ItemData>
+        <Title>{productTitle}</Title> 
+        <Quantity>{quantity}</Quantity>
+      </ItemData>
 
-      <View style={styles.itemData}>
-        <Text style={styles.amount}>${sum.toFixed(2)}</Text>
+      <ItemData>
+        <Amount>
+          {' '}
+          $
+          {' '}
+          {fixedSum}
+          {' '}
+        </Amount>
         {deleteable &&  (
-          <TouchableOpacity onPress={onRemove} style={styles.deleteButton}>
-            <Ionicons name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'} size={23} color="red"/>
-          </TouchableOpacity>
+          <DeleteButton onPress={onRemove}>
+            <Ionicons name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'} size={23} color="red" />
+          </DeleteButton>
         )}
        
-      </View> 
+      </ItemData> 
 
-    </View>
+    </CardItemScreen>
   )
 }
 
-const styles = StyleSheet.create({ 
-  cartItem: {
-    padding: 10,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 20
-  },
-  itemData: {
-    flexDirection: 'row',
-    alignItems: 'center', 
-  },
-  quantity: {
-    fontFamily: 'open-sans',
-    color: '#888',
-    fontSize: 16, 
-  },
-  title: {
-    fontFamily: 'open-sans-bold',
-    fontSize: 16
-  },
-  amount: {
-    fontFamily: 'open-sans',
-    color: '#888',
-    fontSize: 16, 
-  },
-  deleteButton: {
-    marginLeft: 20
-  }
-})
+const CardItemScreen = styled.View`
+  padding: 10px;
+  background-color: #fff;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 20px;
+`;
 
+const ItemData = styled.View`
+  align-items: center;
+  flex-direction: row; 
+`;
+
+const Title = styled.Text`
+  font-family: 'open-sans-bold';
+  font-size: 16px;
+`;
+
+const Quantity = styled.Text`
+  color: #888;
+  font-family: 'open-sans';
+  font-size: 16px;
+`;
+
+const Amount = styled.Text`
+  color: #888;
+  font-size: 16px;
+  font-family: 'open-sans';
+ `;
+
+const DeleteButton = styled.TouchableOpacity`
+  margin-left: 20px;
+`; 
+
+CartItem.propTypes = {
+  quantity: PropTypes.string.isRequired, 
+  productTitle: PropTypes.string.isRequired, 
+  sum: PropTypes.number.isRequired, 
+  onRemove: PropTypes.func.isRequired, 
+  deleteable: PropTypes.bool.isRequired
+}
 
 export default CartItem

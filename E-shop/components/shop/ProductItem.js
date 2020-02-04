@@ -1,11 +1,11 @@
-import React from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native'
+import React from 'react';
+import PropTypes from 'prop-types'
+import styled from 'styled-components';
+import { TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native'
 import Card from '../UI/Card';
 
-const ProductItem = (props) =>  {
-
-  // checking support TouchableNativeFeedback
-  
+const ProductItem = ({onSelect, imageUrl, title, price, children}) =>  { 
+  // checking support TouchableNativeFeedback 
   // by default will use TouchableOpacity component
   let TouchableCmp = TouchableOpacity;
 
@@ -15,61 +15,72 @@ const ProductItem = (props) =>  {
   } 
   
   return (
-  <TouchableCmp onPress={props.onSelect} useForeground>
-    <Card style={styles.product}> 
-        <View style={styles.imageContainer}> 
-          <Image style={styles.image} source={{uri: props.imageUrl}}/>
-        </View>
-        <View style={styles.details}>
-          <Text style={styles.title}>{props.title}</Text>
-          <Text style={styles.price}>{props.price}</Text>
-        </View> 
-        <View style={styles.actions}>
-          {props.children}
-        </View> 
-    </Card> 
-  </TouchableCmp> 
+    <TouchableCmp onPress={onSelect} useForeground>
+      <Card style={product}> 
+        <ImageScreen> 
+          <Image source={{uri: imageUrl}} />
+        </ImageScreen>
+        <Details>
+          <Title>{title}</Title>
+          <Price>{price}</Price>
+        </Details> 
+        <Actions>
+          {children}
+        </Actions> 
+      </Card> 
+    </TouchableCmp> 
 ) }
 
-const styles = StyleSheet.create({
-  product: { 
-    height: 300,
-    margin: 20, 
-  },
-  image: {
-    width: '100%',
-    height: '100%'
-  },
-  title: {
-    fontSize: 18,
-    marginVertical: 4,
-    fontFamily: 'open-sans-bold'
-  },
-  price: {
-    fontSize: 14,
-    color: '#888',
-    fontFamily: 'open-sans'
-  },
-  actions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '25%',
-    paddingHorizontal: 20
-  },
-  details: {
-    alignItems: 'center',
-    height: '17%',
-    padding: 10,
-  },
-  imageContainer: {
-    width: '100%',
-    height: '60%', 
-    borderTopRightRadius:10,
-    borderTopLeftRadius: 10,
-    overflow: 'hidden'
-  }
-})
+const product = {
+  height: 300,
+  margin: 20 
+}
 
+const ImageScreen = styled.View`
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 60%;
+  overflow: hidden;
+  width: 100%;
+`;
+
+const Image = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
+const Details = styled.View`
+  align-items: center;
+  height: 17%;
+  padding: 10px;
+`;
+
+const Actions = styled.View`
+  align-items: center;
+  flex-direction:row;
+  height: 25%;
+  justify-content: space-between;
+  padding: 0 20px;
+`;
+
+const Price = styled.Text`
+  color: #888;
+  font-family: 'open-sans';
+  font-size: 14px;
+`;
+
+const Title = styled.Text`
+  font-family: 'open-sans-bold';
+  font-size: 18px;
+  margin: 4px 0;
+`;
+ 
+ProductItem.propTypes = {
+  onSelect: PropTypes.func.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+   title: PropTypes.string.isRequired, 
+   price: PropTypes.number.isRequired, 
+   children: PropTypes.node.isRequired
+}
 
 export default ProductItem;
