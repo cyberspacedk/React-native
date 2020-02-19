@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useCallback} from 'react'
+import PropTypes from 'prop-types'
 import { View, Text, FlatList, Button, ActivityIndicator, Platform } from 'react-native'
 import {useSelector, useDispatch} from 'react-redux';
-import ProductItem from '../../components/shop/ProductItem';
 import {HeaderButtons , Item} from 'react-navigation-header-buttons';
+import ProductItem from '../../components/shop/ProductItem';
 import HeaderButton from '../../components/UI/HeaderButton';
 
 import {addToCart} from '../../store/actions/cart';  
@@ -10,7 +11,7 @@ import {fetchProducts} from '../../store/actions/products';
 
 import Colors from '../../constatnts/Colors';
 
-const ProductsOverviewScreen = (props) => {
+const ProductsOverviewScreen = ({navigation}) => {
   // handling async requests
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -34,7 +35,7 @@ const ProductsOverviewScreen = (props) => {
   // load products every time when navigation is change
   useEffect(()=>{
   // store to constant event listener
-   const willFocusSubcscription =  props.navigation.addListener('willFocus',  loadProducts); 
+   const willFocusSubcscription =  navigation.addListener('willFocus',  loadProducts); 
   //  unsubscribe from event when component unmounts
     return ()=> willFocusSubcscription.remove();
   },[loadProducts])
@@ -45,9 +46,8 @@ const ProductsOverviewScreen = (props) => {
     loadProducts().then(()=> setIsLoading(false))
   },[loadProducts]);
 
-
   const handleItemDetails = (id, title) => {
-    props.navigation.navigate('ProductDetail', {
+    navigation.navigate('ProductDetail', {
       productId:  id,
       productTitle:  title
     })
@@ -57,7 +57,7 @@ const ProductsOverviewScreen = (props) => {
     return (
       <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
         <Text>An Error occured!</Text>
-        <Button title="try again" onPress={loadProducts} color={Colors.primary}/>
+        <Button title="try again" onPress={loadProducts} color={Colors.primary} />
       </View>
     )
   }
@@ -65,7 +65,7 @@ const ProductsOverviewScreen = (props) => {
   if(isLoading){
     return (
       <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" color={Colors.primary}/>
+        <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     )
   } 
@@ -86,11 +86,11 @@ const ProductsOverviewScreen = (props) => {
       keyExtractor={item=> item.id} 
       renderItem={({item})=> (
         <ProductItem 
-         {...item}
+          {...item}
           onSelect={()=> handleItemDetails(item.id, item.title)} 
         >
-          <Button color={Colors.primary} title="View Details" onPress={()=> handleItemDetails(item.id, item.title)}/>
-          <Button color={Colors.primary} title="To Cart" onPress={()=> dispatch(addToCart(item))}/> 
+          <Button color={Colors.primary} title="View Details" onPress={()=> handleItemDetails(item.id, item.title)} />
+          <Button color={Colors.primary} title="To Cart" onPress={()=> dispatch(addToCart(item))} /> 
         </ProductItem>
       )}
     />
@@ -101,12 +101,12 @@ ProductsOverviewScreen.navigationOptions = nav => ({
     headerTitle: 'All Products',
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}> 
-      <Item 
-        title="Cart" 
-        iconName={Platform.OS === 'android' ? 'md-menu':'ios-menu'}
-        onPress={()=> nav.navigation.toggleDrawer()}
-      />
-    </HeaderButtons>
+        <Item 
+          title="Cart" 
+          iconName={Platform.OS === 'android' ? 'md-menu':'ios-menu'}
+          onPress={()=> nav.navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
     ),
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}> 
@@ -117,6 +117,13 @@ ProductsOverviewScreen.navigationOptions = nav => ({
         />
       </HeaderButtons>
     ) 
-  })
+})
+
+ProductsOverviewScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    addListener: PropTypes.func.isRequired
+  }).isRequired
+};
 
 export default ProductsOverviewScreen;

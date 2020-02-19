@@ -1,52 +1,62 @@
 import React from 'react'
-import { View, Text, ScrollView, Image, Button, StyleSheet} from 'react-native'
+import { ScrollView, Button} from 'react-native';
+import PropTypes from 'prop-types'
 import {useSelector, useDispatch} from 'react-redux';
+import styled from 'styled-components';
+
 import Colors from '../../constatnts/Colors';
 import {addToCart} from '../../store/actions/cart'; 
 
-const ProductDetailScreen = (props) => {
-  const productId = props.navigation.getParam('productId');
+const ProductDetailScreen = ({navigation}) => {
+  const productId = navigation.getParam('productId');
   const product = useSelector(state=> state.products.avalaibleProducts.find(prod=> prod.id === productId)); 
   const dispatch = useDispatch();
 
   return (
     <ScrollView>
-      <Image style={styles.image} source={{uri: product.imageUrl}}/>
-      <View style={styles.actions}>
+      <Image source={{uri: product.imageUrl}} />
+      <AddToCart>
         <Button color={Colors.primary} title="Add to Cart" onPress={()=> dispatch(addToCart(product))} /> 
-      </View>
-      <Text style={styles.price}>${product.price}</Text>
-      <Text style={styles.description}>{product.description}</Text> 
+      </AddToCart>
+      <Price>
+        $
+        {product.price}
+      </Price>
+      <Description>{product.description}</Description> 
     </ScrollView>
   )
 }
-const styles = StyleSheet.create({ 
-  image: {
-    width: '100%',
-    height: 300
-  },
-  price: {
-    fontSize: 20,
-    color: '#888',
-    textAlign: 'center',
-    marginVertical: 20,
-    fontFamily: 'open-sans-bold'
-  },
-  description: {
-    fontSize: 14, 
-    textAlign: 'center',
-    paddingHorizontal: 10
-  },
-  actions: {
-    marginVertical: 10,
-    alignItems: 'center',
-  }
-})
+
+const Image = styled.Image`
+  width: 100%;
+  height: 300px;
+`;
+const AddToCart = styled.View`
+  align-items: center;
+  margin: 10px 0;
+`;
+const Description = styled.Text`
+  font-size: 14px;
+  padding: 0 10px;
+  text-align: center;
+`;
+const Price = styled.Text`
+  color: #888;
+  font-family: 'open-sans-bold';
+  font-size: 20px;
+  text-align: center;
+`;
 
 ProductDetailScreen.navigationOptions = navData => {
   return {
     headerTitle: navData.navigation.getParam('productTitle')
   }
+};
+
+ProductDetailScreen.propTypes = {
+  navigation: PropTypes.shape({
+    getParam: PropTypes.func.isRequired
+  }).isRequired
 }
 
 export default ProductDetailScreen

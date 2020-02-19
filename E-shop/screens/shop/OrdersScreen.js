@@ -9,7 +9,7 @@ import HeaderButton from '../../components/UI/HeaderButton';
 import OrderItem from '../../components/shop/OrderItem'; 
 import Colors from '../../constatnts/Colors';
 
-const OrdersScreen = (props) => {
+const OrdersScreen = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +26,7 @@ const OrdersScreen = (props) => {
   if(isLoading){
     return (
       <View style={{flex:1 , justifyContent:'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" color={Colors.primary}/>
+        <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     )
   }
@@ -35,13 +35,14 @@ const OrdersScreen = (props) => {
   // in future will be nice add separate component (with image)
   if(orders.length === 0){
     return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>No orders found</Text>
-    </View>)
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text>No orders found</Text>
+      </View>
+)
   }
 
   return (
-  <FlatList keyExtractor={item=>item.id} data={orders} renderItem={({item})=> <OrderItem  {...item}/>}/>
+    <FlatList keyExtractor={item=>item.id} data={orders} renderItem={({item})=> <OrderItem {...item} />} />
   )
 }
 
@@ -50,13 +51,13 @@ OrdersScreen.navigationOptions = nav => {
     headerTitle: 'Your Orders',
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}> 
-      <Item 
-        title="Cart" 
-        iconName={Platform.OS === 'android' ? 'md-menu':'ios-menu'}
-        onPress={()=> nav.navigation.toggleDrawer()}
-      />
-    </HeaderButtons>
-    ),
+        <Item 
+          title="Cart" 
+          iconName={Platform.OS === 'android' ? 'md-menu':'ios-menu'}
+          onPress={()=> nav.navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    )
   }
 }
 

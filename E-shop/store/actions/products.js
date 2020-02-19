@@ -53,16 +53,16 @@ export const deleteProduct = productId => async (dispatch, getState) => {
 }
 
 export const createProduct = (title, description, imageUrl, price) => async (dispatch, getState) => {
-    // can do async operation
+  // can do async operation
   try{ 
     const {token, userId} = getState().auth;
-
+    const product = { title, description, imageUrl, price, ownerId: userId } 
     // store product to database
     const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/products.json?auth=${token}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, description, imageUrl, price, ownerId: userId })
-    })
+      body: JSON.stringify(product)
+    }) 
     
     if(!response.ok) throw new Error('Something went wrong !');
 

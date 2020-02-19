@@ -22,9 +22,9 @@ const formReducer = (state, {type, name, value, isValid}) => {
     }
     const updatedValidities = {
       ...state.inputValidities,
-      [name]: isValid
-
+      [name]: isValid 
     }
+
     const formIsValid = Object.keys(updatedValidities).every(field=> updatedValidities[field]); 
     return {
       inputValues: updatedValues,
@@ -66,11 +66,10 @@ const EditProductScreen = ({navigation}) => {
       price: editedProduct ? true : false
     }, 
     formIsValid: editedProduct ? true : false
-  }); 
+  });  
   
   // submit form memoized function
-  const submitHandler = useCallback(async ()=> { 
-    
+  const submitHandler = useCallback(async ()=> {  
     // for convininience purposes destructure data in variables
     const {title, imageUrl, description, price} = formState.inputValues; 
 
@@ -102,7 +101,7 @@ const EditProductScreen = ({navigation}) => {
   }, [submitHandler])
 
   // handler
-  const inputChangeHandler = useCallback((inputName, value, isValid) => { 
+  const inputChangeHandler = useCallback((inputName, value, isValid) => {  
   // shoot an action with filled fields 
     dispatchFormState({
       type: FORM_INPUT_UPDATE, 
@@ -125,7 +124,6 @@ const EditProductScreen = ({navigation}) => {
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100}>
       <ScrollView>
         <FormScreen>  
-
           <Input 
             name="title"
             label="Title"  
@@ -138,8 +136,7 @@ const EditProductScreen = ({navigation}) => {
             initialValidity={!!editedProduct}
             initialValue={editedProduct ? editedProduct.title : ''}  
             required
-          /> 
-
+          />  
           <Input  
             name="imageUrl"
             label="Image URL"  
@@ -150,8 +147,7 @@ const EditProductScreen = ({navigation}) => {
             initialValidity={!!editedProduct}
             initialValue={editedProduct ? editedProduct.imageUrl : ''} 
             required
-          />  
-
+          />   
           {editedProduct ? null : (
             <Input 
               name="price"
@@ -164,8 +160,7 @@ const EditProductScreen = ({navigation}) => {
               min={0.1}
             />   
             ) 
-          } 
-
+          }  
           <Input  
             name="description"
             label="Description"
@@ -181,7 +176,6 @@ const EditProductScreen = ({navigation}) => {
             required
             min={5}
           />   
-
         </FormScreen> 
       </ScrollView> 
     </KeyboardAvoidingView>

@@ -37,7 +37,7 @@ const Input = props => {
     value: initialValue ? initialValue : '',
     isValid: initialValidity, 
     touched: false
-  })
+  }) 
  
   const {value, isValid, touched}=inputState;
 
@@ -69,7 +69,7 @@ const Input = props => {
       isValid = false;
     }
     // after all checks dispatch value and isValid 
-    dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
+    dispatch({ type: INPUT_CHANGE, value: text, isValid });
   };
 
   // onBlur handler

@@ -13,7 +13,7 @@ const CustomHeaderButton = props=> {
       iconSize={23} 
       color={Platform.OS === 'android' ?  'white' : Colors.primary}
     />
-)
+  )
 }
 
 export default CustomHeaderButton;

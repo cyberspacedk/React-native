@@ -11,13 +11,14 @@ import PropTypes from 'prop-types'
    )
  }
 
- const Screen = styled.View`
+const Screen = styled.View`
   background-color: #fff;
   border-radius: 5px;  
- ` 
+` 
 Card.propTypes ={
   children: PropTypes.node.isRequired,
   style: PropTypes.shape({}).isRequired
-}
+};
+
 export default Card
  

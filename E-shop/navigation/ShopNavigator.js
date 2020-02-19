@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react' 
 import {Platform, SafeAreaView, Button, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
@@ -8,6 +9,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 
 // helpers
+import {useDispatch} from 'react-redux';
 import Colors from '../constatnts/Colors';
 
 // screens
@@ -23,7 +25,6 @@ import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
 
 // auth handling
-import {useDispatch} from 'react-redux';
 import {logout} from '../store/actions/auth';
 
 // define platform 
@@ -47,10 +48,10 @@ const defaultNavigationOptions = {
 const ProductsNavigator = createStackNavigator({
   ProductsOverview: ProductsOverviewScreen,
   ProductDetail: ProductDetailScreen,
-  Cart: CartScreen, 
+  Cart: CartScreen 
 },{
   navigationOptions: {
-    drawerIcon: drawerConfig =><Ionicons name={ios ? 'ios-cart':'md-cart'} size={23} color={drawerConfig.tintColor}/>
+    drawerIcon: drawerConfig =><Ionicons name={ios ? 'ios-cart':'md-cart'} size={23} color={drawerConfig.tintColor} />
   },
   defaultNavigationOptions
 })
@@ -60,7 +61,7 @@ const OrderNavigator = createStackNavigator({
   Orders: OrderScreen
  },{ 
   navigationOptions: {
-    drawerIcon: drawerConfig =><Ionicons name={ios ? 'ios-list':'md-list'} size={23} color={drawerConfig.tintColor}/>
+    drawerIcon: drawerConfig =><Ionicons name={ios ? 'ios-list':'md-list'} size={23} color={drawerConfig.tintColor} />
   },
    defaultNavigationOptions
   }
@@ -72,7 +73,7 @@ const AdminNavigator = createStackNavigator({
   EditProduct : EditProductScreen
  },{ 
   navigationOptions: {
-    drawerIcon: drawerConfig =><Ionicons name={ios ? 'ios-create':'md-create'} size={23} color={drawerConfig.tintColor}/>
+    drawerIcon: drawerConfig =><Ionicons name={ios ? 'ios-create':'md-create'} size={23} color={drawerConfig.tintColor} />
   },
    defaultNavigationOptions
   }
@@ -82,12 +83,13 @@ const AdminNavigator = createStackNavigator({
 const ShopNavigator = createDrawerNavigator({
   Products: ProductsNavigator,
   Orders: OrderNavigator,
-  Admin: AdminNavigator,
+  Admin: AdminNavigator
 },{
   contentOptions: {
     acttiveTintColor: Colors.primary
   },
   // let define custom component in drawer
+  // eslint-disable-next-line react/display-name
   contentComponent: props => {
     const dispatch = useDispatch();
 
@@ -102,7 +104,7 @@ const ShopNavigator = createDrawerNavigator({
           {/* items which we define before */}
           <DrawerItems {...props} />
           {/* custom component - button */}
-          <Button title="Logout" color={Colors.primary} onPress={handleLogout}/>
+          <Button title="Logout" color={Colors.primary} onPress={handleLogout} />
         </SafeAreaView>
       </View>
     )
