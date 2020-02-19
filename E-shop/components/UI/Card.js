@@ -13,7 +13,8 @@ import PropTypes from 'prop-types'
 
 const Screen = styled.View`
   background-color: #fff;
-  border-radius: 5px;  
+  border-radius: 5px;   
+  border: 1px solid #ccc;
 ` 
 Card.propTypes ={
   children: PropTypes.node.isRequired,

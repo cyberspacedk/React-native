@@ -28,7 +28,7 @@ const CartScreen = () => {
       })
     });
     return transformedCartItems;
-  }); 
+  });  
 
   const emptyCart = cartItems.length === 0;
   

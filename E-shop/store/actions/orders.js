@@ -6,13 +6,13 @@ export const GET_ORDERS = 'GET_ORDERS';
 export const addOrder = (cartItems, total)=> async (dispatch, getState)=> {
   const date = new Date().toISOString();
   try{  
-    const {token, userId} = getState().auth;
-
-    const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/${userId}.json?auth=${token}`, {
+    const {userId} = getState().auth; 
+    const shortUserId = userId.slice(0,10)
+    const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/${shortUserId}.json`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cartItems, total, date})
-    })
+    }) 
 
     if(!response.ok) throw new Error('Something went wrong !');
  
@@ -35,7 +35,8 @@ export const addOrder = (cartItems, total)=> async (dispatch, getState)=> {
 export const getOrders = () => async (dispatch, getState)=> {
 
   const {userId} = getState().auth; 
-  const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/${userId}.json`);
+  const shortUserId = userId.slice(0,10)
+  const response = await fetch(`https://e-shop-rn-mobile.firebaseio.com/orders/${shortUserId}.json`);
   const responseData = await response.json();  
 
   const loadedOrders = [];

@@ -79,7 +79,7 @@ const AdminNavigator = createStackNavigator({
   }
 )
 
-// combite these navigators in Drawer navigator
+// combine these navigators in Drawer navigator
 const ShopNavigator = createDrawerNavigator({
   Products: ProductsNavigator,
   Orders: OrderNavigator,

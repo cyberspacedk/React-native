@@ -45,8 +45,9 @@ const ImageScreen = styled.View`
 `;
 
 const Image = styled.Image`
-  width: 100%;
+  width: 50%;
   height: 100%;
+  margin: 0 auto;
 `;
 
 const Details = styled.View`

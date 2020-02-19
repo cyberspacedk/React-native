@@ -20,10 +20,11 @@ const OrderItem = ({total, date, items}) => {
         <TotalAmount>{totalFixed}</TotalAmount>
         <Date>{date}</Date>
       </Summary>
-      <Button color={Colors.primary} title={showDetails ? "Hide details" : "Show details"} onPress={handleShowDetails} />
+      {!items && <EmptyOrdersMessage>No orders yet !</EmptyOrdersMessage> }
+      <Button color={Colors.primary} title={showDetails ? "Hide details" : "Show details"} onPress={handleShowDetails} disabled={!items} />
       {showDetails && (
         <Details>
-          {items.map(item=> (<CartItem key={item.productId} {...item} />))}
+          {items && items.map(item=> (<CartItem key={item.productId} {...item} />))}
         </Details>
       )}
     </OrderItemScreen>
@@ -61,9 +62,14 @@ const Details = styled.View`
   width: 100%;
 `;
 
+const EmptyOrdersMessage = styled.Text`
+  text-align: center;
+`;
+
 OrderItem.propTypes = {
   total: PropTypes.number.isRequired, 
   date: PropTypes.string.isRequired, 
   items: PropTypes.arrayOf.isRequired
 }
+
 export default OrderItem

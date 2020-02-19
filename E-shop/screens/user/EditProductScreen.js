@@ -66,7 +66,7 @@ const EditProductScreen = ({navigation}) => {
       price: editedProduct ? true : false
     }, 
     formIsValid: editedProduct ? true : false
-  });  
+  });   
   
   // submit form memoized function
   const submitHandler = useCallback(async ()=> {  
@@ -220,4 +220,5 @@ EditProductScreen.propTypes = {
     getParam: PropTypes.func.isRequired
   }).isRequired
 }
+
 export default EditProductScreen
