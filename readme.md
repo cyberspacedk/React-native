@@ -1,6 +1,6 @@
 ## React native pet project
 
-1. Gadget shop 
+## 1. Gadget shop 
 
 [expo link](https://expo.io/@cyberspacedk/gadget-shop)
 
@@ -8,8 +8,20 @@ A simple shop for different type of products. As database I use firebase.
 The app has authentication, product and orders linked to concert user. 
 Realized regular shop flow such as buy, order, edit , create product.
 
-### Screen example
+#### Screen example
 
-![pic](https://lh3.googleusercontent.com/0-dTMz1CBZnNM4YxEqnf8Fin7rTAM4ITtxvIXkZnm_LQf30HRKh5EwI0IVo_lzD_d0dyDHiep74xh8NUBfmTfV04OpJr2Jg8m5IjBwHcW4bQz605M9RRwZF-gmS-Xw2KHFRxPDaeAdgm13OR114GUXQajEoIGl1eceDj14In23DqpaWhAhuo_-dGqFFPWWg_bGLYNDcgs19joqDaVh323RAmwQFs1_Z6n473K0oDm5F9XmxT2U7lMfgzhps2cetLoMtu36X-OheXzjG-RpUr6jFKQF3KoL-mihb_NXtbxShPW2JcS3SnHS2T0IvtpA2A7vwFCzKVzrDMJVf0mcwEZrl94fAlolxLmSoI-NnRPBYeqSD4xSbM7mBLppsiwojn-WJNWRRudVOy3IOMOmm3N9wS0nQe8lHWBleJXx4UZISplWlZ6AlRynfQP_LAalQRq7e577Z4bqQKptTKQYURU68k3BwWRlRJjt2ECx-ld2ng2cJ0u_aVYa8SGiA4jAHm6qUjCIIMh0BXeKQU0cJ0JDYp41Am_ysHVTqg0OOBebdNQxAd0k_Ki1gyVWMoSKeQhljjW8OZZwT6LcCnjD7aSW1J2PADORrCPNRiUUzCHSXrap_RjXhstBScU30vhgW1Kdf779t_hW7MmV1cmuf816NknKSZMuhy7nNAa83ifacJ7uTYIZ_bEnI=w1431-h805-no)
-![pic](https://lh3.googleusercontent.com/HsvQNEjXrR0-gCVUEyLft1Tn5O2pXlNofKnJw8a187Atru2sZbQjMSd0J38NSyxIO_xxfEctlj_Suoa5Tpva--9kJV_fMzwTo_sQXVYmUk4ejenoSsRGcqlWoCUmoC4dNTIlFd4KXqApd_olOmIOpW9FAZIWLuEOa_i8_GD71PQTvEEI_fRoiwFA58w_DueF-EOeDQdvqBEo6mLn6cEIrSGIfAXCAxu-oJOG-rO-FHRAN_CzFLx9JFoZPM_qT5DzUz_jQ7KAhsRMndQHVDHeC9sl-n7aArwnYknWcxhbBa65sNONJfBTFgmhmO-QSSn1QAzNiJkrj0CD5BeimP5LXoGVuUzg7xLzE-e3pB6SA53vNuDNc6_N24gXVDCRQdeI1MYKAo7AbqCDeTA5rSXPoND5SO_aAsz3yE7F2F9VBho2Va6NsPMGTIr5cHUJ5DjE2MQqaeNRK4_ydND0l_9S7iJNUGQ2shtOoh1v6rNxyT32qFLuweShau85ss_SrXAJ-fk-CopHpYtIBI9ZO2AkaQHO-rvwhNCvsNZnJ9pQZ62imHE5sCyg7oAHc24Gdf8ZbF5zs6JujUoRyp-DRZl7miCUonu14y0nau7pEYc26NmQxMUnspd_PehP4jnF_HSkx2MC2K-mOwhYXEDVnNyp1em4LadMsB2y1d5iV9HhuIUB24wAzE5qgao=w1431-h805-no)
+![pic](http://i.piccy.info/i9/054d9c638716754d98bcca09982af2b3/1582227827/506847/1363635/1.png)
+![pic](http://i.piccy.info/i9/76d74121e930cea61d7acb9d37229898/1582227878/396661/1363635/2.png)
 
+___
+
+## 2. Places 
+
+[expo link]()
+
+The application saves visited places with the ability to mark a point on the map. 
+The ability to both upload and take pictures. Used by Google Map API. As a database SQLite.
+
+#### Screen example
+
+![pic](http://i.piccy.info/i9/84af03aeaf732780917ecf448af43a2b/1582227341/297536/1363635/3.jpg)
