@@ -10,5 +10,6 @@ Realized regular shop flow such as buy, order, edit , create product.
 
 ### Screen example
 
-![pic](https://photos.app.goo.gl/BwhrBUgu7KbTncTy5)
-![pic](https://photos.app.goo.gl/KhgN63P6VVFqBsUXA)
+![pic](https://photos.google.com/u/1/photo/AF1QipNFRmiDfJsSShDaQlcATFmL-QU-_4OAWJ0nQEjq)
+![pic](https://photos.google.com/u/1/photo/AF1QipMXi0oUI7eszmdipy0e4aCo5rLnrk7liQaRBibT)
+
