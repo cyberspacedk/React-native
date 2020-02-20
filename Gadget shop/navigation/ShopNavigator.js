@@ -87,23 +87,20 @@ const ShopNavigator = createDrawerNavigator({
 },{
   contentOptions: {
     acttiveTintColor: Colors.primary
-  },
-  // let define custom component in drawer
-  // eslint-disable-next-line react/display-name
+  }, 
   contentComponent: props => {
     const dispatch = useDispatch();
 
-    const handleLogout = () => {
-      // shoot action logout
+    const handleLogout = () => { 
       dispatch(logout()); 
+      // eslint-disable-next-line react/prop-types
+      props.navigation.navigate('Auth')
     }
 
     return (
       <View style={{flex: 1, paddingVertical: 30}}>
-        <SafeAreaView forceInset={{top:'always', horizontal: 'never'}}>
-          {/* items which we define before */}
-          <DrawerItems {...props} />
-          {/* custom component - button */}
+        <SafeAreaView forceInset={{top:'always', horizontal: 'never'}}> 
+          <DrawerItems {...props} /> 
           <Button title="Logout" color={Colors.primary} onPress={handleLogout} />
         </SafeAreaView>
       </View>

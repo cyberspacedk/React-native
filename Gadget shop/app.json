@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Apple store",
-    "slug": "apple-store",
+    "name": "Gadget shop",
+    "slug": "gadget-shop",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
