@@ -1,13 +1,14 @@
 import * as FileSystem from 'expo-file-system';
 import {API} from '../../env';
-import {insertPlace, getPlaces} from '../../db/methods';
+import {insertPlace, getPlaces, deletePlace} from '../../db/methods';
 
 export const ADD_PLACE = 'ADD_PLACE';
 export const SET_PLACES = 'SET_PLACES';
+export const DELETE_PLACE = 'DELETE_PLACE';
 
 export const addPlace = (title, imageUri, location) => async dispatch => {
-  const {latitude, longitude} = location; 
-// get address by geo params 
+  const {latitude, longitude} = location;  
+
   const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${API}`);
   
   if(!response){
@@ -20,23 +21,18 @@ export const addPlace = (title, imageUri, location) => async dispatch => {
     throw new Error('Something went wrong'); 
   }
   const address = responseData.results[0].formatted_address; 
-
-  // get image name 
-  const fileName = imageUri.split('/').pop(); 
-  // get new path in document directory  
+ 
+  const fileName = imageUri.split('/').pop();  
   const newPath = FileSystem.documentDirectory + fileName; 
 
-  try{
-    // call moveAsyc method that moves old path and store new path
+  try{ 
     FileSystem.moveAsync({
       from: imageUri,
       to: newPath
     });
-    
-    // insert data to db
+     
     const dbresult = await insertPlace(title, newPath, address,latitude, longitude);   
-    
-    // shoot action if all previous operation will succeed
+     
     dispatch({ type: ADD_PLACE, placeData: { 
       id: dbresult.insertId, 
       title, 
@@ -56,13 +52,20 @@ export const addPlace = (title, imageUri, location) => async dispatch => {
 export const loadPlaces = () => async dispatch => {
   try {
     const result = await getPlaces();   
-
     dispatch({
       type: SET_PLACES,
       places: result.rows._array
-    });
-
+    }); 
     }catch(error){
       throw error
     }  
+}
+
+export const removePlace = (placeTitle) => async dispatch =>{
+  try{
+    const result = await deletePlace(placeTitle);
+    console.log(result)
+  }catch(error){
+    throw error
+  }
 }

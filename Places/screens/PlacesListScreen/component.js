@@ -4,7 +4,7 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons'
 import {Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux'; 
 
-import {loadPlaces} from '../../store/actions/place';
+import {loadPlaces, removePlace} from '../../store/actions/place';
 
 import CustomHeaderButton from '../../components/HeaderButton'
 import PlaceItem from '../../components/PlaceItem';
@@ -19,6 +19,11 @@ const PlacesListScreen = (props) => {
 
   useEffect(()=> { dispatch(loadPlaces())},[dispatch]);
 
+  const handlePlaceRemove = async(title)=> {
+    await dispatch(removePlace(title))
+    dispatch(loadPlaces())
+  }
+  
   const placesList = useSelector(store=> store.places.placesList);  
   
   return ( 
@@ -27,6 +32,7 @@ const PlacesListScreen = (props) => {
       renderItem={({item})=>(
         <PlaceItem 
           {...item}
+          handlePlaceRemove={handlePlaceRemove}
           onSelect={()=> props.navigation.navigate('PlaceDetails', {
             placeId: item.id,
             placeTitle: item.title,

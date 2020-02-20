@@ -1,28 +1,31 @@
-import styled from 'styled-components';
-import Colors from '../../constants/colors';
+import styled from 'styled-components'; 
 
-export const TouchableOpacity = styled.TouchableOpacity` 
-    flex-direction: row;
-    padding: 15px 30px; 
+export const TouchableOpacity = styled.TouchableOpacity`  
+    padding: 10px; 
     border-color: #ccc;
-    border-bottom-width: 1px;
-    align-items: center;
+    border-bottom-width: 1px; 
+    width: 100%;  
+    flex-direction:row;
+    justify-content:space-between;
 `; 
+export const Screen = styled.View` 
+    flex:1;
+    justify-content:space-between;
+    flex-direction: column; 
+    padding-right: 5px; 
+`;
 
-export const Container = styled.View` 
-    width: 250px;
-    margin-left: 25px;
-    justify-content: center;
-    align-items: flex-start;
+export const Container = styled.View`  
+    padding: 10px;  
 `;
 
 export const Image = styled.Image` 
     background-color: #ccc;
-    border-color: ${Colors.primary};
-    border-radius: 35px;
-    border-width: 1px;
-    height: 70px;
-    width: 70px; 
+    border-color: #ccc;
+    border-radius: 100px;
+    border-width: 3px;
+    height: 100px;
+    width: 100px; 
 `;
 
 export const Title = styled.Text` 
@@ -32,6 +35,12 @@ export const Title = styled.Text`
 `;
 
 export const Address = styled.Text` 
-    font-size: 16px;
-    color: #666;
+    font-size: 12px;
+    color: #666; 
+    width: 95%;
 `;
+ 
+export const ButtonWrapper = styled.View`
+    width: 100px; 
+`;
+export const Button = styled.Button``
