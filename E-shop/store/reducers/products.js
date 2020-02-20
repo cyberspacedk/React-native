@@ -36,23 +36,17 @@ export default (state = initialState, action )=> {
       };
     }
 
-    case UPDATE_PRODUCT: { 
-      // find product index in array
+    case UPDATE_PRODUCT: {  
       const userProductIndex = state.userProducts.findIndex(prod=> prod.id === action.productId ); 
-      const avalaibleProductIndex= state.avalaibleProducts.findIndex(prod=> prod.id === action.productId ); 
-      // getting data for update
+      const avalaibleProductIndex= state.avalaibleProducts.findIndex(prod=> prod.id === action.productId );  
       const {title, description, imageUrl} = action.productData;
-      const id = state.userProducts[userProductIndex].ownerId; 
-      // create new one
-      const updatedProduct = new Product(action.productId, id, title, imageUrl, description ); 
-      // make cope of existing
+      const id = state.userProducts[userProductIndex].ownerId;  
+      const updatedProduct = new Product(action.productId, id, title, imageUrl, description );  
       const updatedUserProducts = [...state.userProducts];
-      const updatedAvalaibleProducts = [...state.avalaibleProducts];
-      // rewrite existing product on New product by Index 
+      const updatedAvalaibleProducts = [...state.avalaibleProducts]; 
       updatedUserProducts[userProductIndex] = updatedProduct;
       updatedAvalaibleProducts[avalaibleProductIndex] = updatedProduct; 
-
-      // return updated state
+ 
       return {
         ...state, 
         avalaibleProducts: updatedAvalaibleProducts,

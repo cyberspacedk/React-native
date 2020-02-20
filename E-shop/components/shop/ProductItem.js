@@ -4,12 +4,9 @@ import styled from 'styled-components';
 import { TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native'
 import Card from '../UI/Card';
 
-const ProductItem = ({onSelect, imageUrl, title, price, children}) =>  { 
-  // checking support TouchableNativeFeedback 
-  // by default will use TouchableOpacity component
+const ProductItem = ({onSelect, imageUrl, title, price, children}) =>  {  
   let TouchableCmp = TouchableOpacity;
-
-  // for Android devices we will use TouchableNativeFeedback component with useForeGround props
+ 
   if(Platform.OS === 'android' && Platform.Version >= 21){
     TouchableCmp = TouchableNativeFeedback
   } 

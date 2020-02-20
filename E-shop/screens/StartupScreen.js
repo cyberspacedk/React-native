@@ -9,41 +9,29 @@ import { authenticate } from '../store/actions/auth';
 
 const StartupScreen = ({navigation}) => {
   const dispatch = useDispatch();
-
-  // async function for handling expiration token
-  const tryLogin = async ()=> {
-    // get data from device storage
-    const userData = await AsyncStorage.getItem('userData');  
-    // if data doesnt exist push user to auth screen
+ 
+  const tryLogin = async ()=> { 
+    const userData = await AsyncStorage.getItem('userData');   
     if(!userData) {
       navigation.navigate('Auth')
       return;
-    } 
-    // get concrete data from userData object 
-    const {token, userId, expiryDate} = JSON.parse(userData); 
-    // create new Date from token expiration date 
-    const expirationDate = new Date(expiryDate);  
-    // if token expired or userId and token are empty push user to auth screen
+    }  
+    const {token, userId, expiryDate} = JSON.parse(userData);  
+    const expirationDate = new Date(expiryDate);   
     if(expirationDate <= new Date() || !token || !userId){
       navigation.navigate('Auth')
       return;
-    } 
-
-    // get ms time token and minus current time ms
+    }  
     const expirationTime = expirationDate.getTime() - new Date().getTime(); 
-
-    // if all checks pass push user to Shop page
+ 
     navigation.navigate('Shop');
-
-    // dispatch AUTH action to redux store
+ 
     dispatch(authenticate(userId,token, expirationTime))
 
   }
-
-  // launch function when page refresh or mounts
+ 
   useEffect(()=> {tryLogin()},[dispatch]);
-
-  // when token logic checks show spinner
+ 
   return (
     <Screen>
       <ActivityIndicator size="large" color={Colors.primary} />

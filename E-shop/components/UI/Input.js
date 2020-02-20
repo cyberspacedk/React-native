@@ -31,8 +31,7 @@ const Input = props => {
 
  const {initialValue, initialValidity, onInputChange, name, label, 
   errorText, required, email, min, max, minLength} = props;
-  
-// define state and reducers
+   
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: initialValue ? initialValue : '',
     isValid: initialValidity, 
@@ -40,13 +39,11 @@ const Input = props => {
   }) 
  
   const {value, isValid, touched}=inputState;
-
-  // if field touched shot function that change value in parent component
+ 
   useEffect(()=>{
     if(touched) onInputChange(name, value, isValid)
   },[inputState, onInputChange, name])
-
-  // validation and handling input func
+ 
   const textChangeHandler = text => { 
     // eslint-disable-next-line no-useless-escape
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -67,12 +64,10 @@ const Input = props => {
     }
     if (minLength != null && text.length < minLength) {
       isValid = false;
-    }
-    // after all checks dispatch value and isValid 
+    } 
     dispatch({ type: INPUT_CHANGE, value: text, isValid });
   };
-
-  // onBlur handler
+ 
   const lostFocusHandler = ()=> {
     dispatch({type: INPUT_BLUR});
   }

@@ -52,12 +52,10 @@ export const deleteProduct = productId => async (dispatch, getState) => {
   } 
 }
 
-export const createProduct = (title, description, imageUrl, price) => async (dispatch, getState) => {
-  // can do async operation
+export const createProduct = (title, description, imageUrl, price) => async (dispatch, getState) => { 
   try{ 
     const {userId} = getState().auth;
-    const product = { title, description, imageUrl, price, ownerId: userId } 
-    // store product to database
+    const product = { title, description, imageUrl, price, ownerId: userId }  
     const response =  await fetch(`https://e-shop-rn-mobile.firebaseio.com/products.json`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -65,11 +63,9 @@ export const createProduct = (title, description, imageUrl, price) => async (dis
     })  
     
     if(!response.ok) throw new Error('Something went wrong !');
-
-    // get created product id from database
+ 
     const responseData = await response.json(); 
-   
-    // store in redux store created product
+    
     dispatch ({
       type: CREATE_PRODUCT, 
       productData: {

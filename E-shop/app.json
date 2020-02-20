@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "E-shop",
-    "slug": "E-shop",
+    "name": "Apple store",
+    "slug": "apple-store",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#175b69"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

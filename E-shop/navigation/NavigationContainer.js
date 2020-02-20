@@ -1,21 +1,15 @@
 import React, {useEffect, useRef} from 'react';
-import {useSelector} from 'react-redux';
-// API for handling navigation  
+import {useSelector} from 'react-redux'; 
 import { NavigationActions } from 'react-navigation';
 
 import ShopNavigator from './ShopNavigator';
-
-// This container created to access to redux store 
-const NavigationContainer = () => {
-  // create referense to navigator file
-  const navigatorRef = useRef();
-  // get token from store
+ 
+const NavigationContainer = () => { 
+  const navigatorRef = useRef(); 
   const isAuth = useSelector(store => store.auth.token); 
   
   useEffect(() => {
-    if(!isAuth && isAuth !== null){
-      // trigger NavigationActions method navigate
-      // dispatch method available in ShopNavigator component 
+    if(!isAuth && isAuth !== null){ 
       navigatorRef.current.dispatch(NavigationActions.navigate({
         routeName: 'Auth'
       }))

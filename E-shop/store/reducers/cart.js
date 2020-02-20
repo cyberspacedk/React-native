@@ -11,17 +11,13 @@ const initialState = {
 export default (state=initialState, action) =>{
   switch(action.type){
     
-    case ADD_TO_CART : {
-    // get data from added product
+    case ADD_TO_CART : { 
       const addedProduct = action.product;
       const productPrice = addedProduct.price;
-      const productTitle = addedProduct.title;
-      // define a variable that stores incoming data 
+      const productTitle = addedProduct.title; 
       let updatedOrNewCartItem;
-
-      // check product existing by "ID"
-      if(state.items[addedProduct.id]){
-        // get current item from Items
+ 
+      if(state.items[addedProduct.id]){ 
         const currentItem = state.items[addedProduct.id];
         updatedOrNewCartItem = new CartItem(
           currentItem.quantity+1, productPrice, productTitle, currentItem.sum + productPrice
@@ -34,8 +30,7 @@ export default (state=initialState, action) =>{
           },
           total: state.total + productPrice 
         }
-      }else{
-        // create new Item  
+      }else{ 
         updatedOrNewCartItem = new CartItem(1,productPrice, productTitle, productPrice); 
       } 
       return {
@@ -45,41 +40,33 @@ export default (state=initialState, action) =>{
           [addedProduct.id]: updatedOrNewCartItem
         },
         total: state.total + productPrice
-      };}
-// remove item from cart ==============
-    case REMOVE_FROM_CART: {
-    // define quantity of ONE product in cart
+      };} 
+    case REMOVE_FROM_CART: { 
       const {productId} = action;
       const currentItem = state.items[productId] 
       const currentItemQuantity = currentItem.quantity;
       let updatedCartItems;
 
-      if(currentItemQuantity > 1){
-        // decrease quantity and sum in concrete product
+      if(currentItemQuantity > 1){ 
         const updatedCartItem = {
           ...currentItem, 
           quantity: currentItemQuantity-1,
           sum: currentItem.sum - currentItem.productPrice
         }
-       
-        // make a cart update
+        
         updatedCartItems = {...state.items, [productId]: updatedCartItem}
         
-      }else {
-        // make a cope of items in cart
-        updatedCartItems = {...state.items};
-        // delete items by passing ID from cart
+      }else { 
+        updatedCartItems = {...state.items}; 
         delete updatedCartItems[action.productId];
       }
       return {
         ...state,
         items: updatedCartItems,
         total: state.total - currentItem.productPrice
-      };}
-// when order has been added need to clear cart
+      };} 
     case ADD_ORDER:
-      return initialState;
-//  if admin remove product, it should be deleted from cart also 
+      return initialState; 
     case DELETE_PRODUCT: {
     if(!state.items[action.productId]){
       return state;

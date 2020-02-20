@@ -12,8 +12,7 @@ import Colors from '../../constatnts/Colors';
 import {createProduct, updateProduct} from '../../store/actions/products';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
-
-// create a reducer for form
+ 
 const formReducer = (state, {type, name, value, isValid}) => {
   if(type === 'FORM_INPUT_UPDATE'){
     const updatedValues = {
@@ -35,23 +34,18 @@ const formReducer = (state, {type, name, value, isValid}) => {
   return state;
 }
 
-const EditProductScreen = ({navigation}) => {
-  // extract dispatch
-  const dispatch = useDispatch();
-  // handling async requests
+const EditProductScreen = ({navigation}) => { 
+  const dispatch = useDispatch(); 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
- 
-  // handling async error
+  
   useEffect(()=> {
     if(isError){ Alert.alert('An Error occured!', 'Something went wrong', [{text: 'Ok'}]) }
   },[isError]);
-
-  // if we have a productId that means we in a Edit screen, otherwise we in a Add product screen
+ 
   const productId = navigation.getParam('productId'); 
   const editedProduct = useSelector(state=> state.products.userProducts.find(product=> product.id === productId)); 
-  
-  // define initial state as second argument, which avaliable in formState variable
+   
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       title: editedProduct ? editedProduct.title : '',
@@ -67,10 +61,8 @@ const EditProductScreen = ({navigation}) => {
     }, 
     formIsValid: editedProduct ? true : false
   });   
-  
-  // submit form memoized function
-  const submitHandler = useCallback(async ()=> {  
-    // for convininience purposes destructure data in variables
+   
+  const submitHandler = useCallback(async ()=> {    
     const {title, imageUrl, description, price} = formState.inputValues; 
 
     if(!formState.formIsValid){ 
@@ -81,8 +73,7 @@ const EditProductScreen = ({navigation}) => {
     setIsError(false);
     setIsLoading(true);
     try{
-      if (editedProduct){
-        // if product exist dispatch updating action
+      if (editedProduct){ 
         await dispatch(updateProduct(productId, title ,description, imageUrl ))
       }else{
         await dispatch(createProduct(title ,description, imageUrl, +price))
@@ -94,15 +85,12 @@ const EditProductScreen = ({navigation}) => {
     setIsLoading(false);
 
   }, [dispatch, productId, formState]);
- 
-  // lifecycle
+  
   useEffect(()=> {
     navigation.setParams({submit: submitHandler})
   }, [submitHandler])
-
-  // handler
-  const inputChangeHandler = useCallback((inputName, value, isValid) => {  
-  // shoot an action with filled fields 
+ 
+  const inputChangeHandler = useCallback((inputName, value, isValid) => {   
     dispatchFormState({
       type: FORM_INPUT_UPDATE, 
       name: inputName,
@@ -110,8 +98,7 @@ const EditProductScreen = ({navigation}) => {
       isValid
     })
   },[dispatchFormState]); 
-
-  // show spinner 
+ 
   if(isLoading){
     return (
       <Spinner>
@@ -182,8 +169,7 @@ const EditProductScreen = ({navigation}) => {
   )
 }
 
-EditProductScreen.navigationOptions = nav => {
-  // transfer this func from component to save icon 
+EditProductScreen.navigationOptions = nav => { 
   const submitFunc = nav.navigation.getParam('submit');
 
   return {

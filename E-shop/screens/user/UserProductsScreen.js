@@ -28,9 +28,7 @@ const deleteHandler = (id) => {
     }}
   ])
   }
-
-  // handling empty product screen. 
-  // in future will be nice add separate component (with image)
+ 
   if(userProducts.length === 0){
     return (
       <EmptyScreen>

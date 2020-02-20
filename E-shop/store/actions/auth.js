@@ -39,8 +39,7 @@ export const signUp = (email, password) => async dispatch => {
       case 'EMAIL_EXISTS': messageToShow = 'This email has already exist!';break;
       default : messageToShow = 'Something went wrong!'; 
     }
-    
-    // after handling message throw error with this
+     
     throw new Error(messageToShow)
   }
 
@@ -48,10 +47,8 @@ export const signUp = (email, password) => async dispatch => {
   const transformedExpiresIn =  parseInt(expiresIn)*1000;
 
   dispatch(authenticate(idToken, localId, transformedExpiresIn));
-
-  // define expiration date of token
-  const expDate = new Date(new Date().getTime() + transformedExpiresIn); 
-  // store to device 
+ 
+  const expDate = new Date(new Date().getTime() + transformedExpiresIn);  
   saveDataToStorage(idToken, localId, expDate)
 }; 
 
@@ -82,18 +79,15 @@ export const logIn = (email, password) => async dispatch => {
       case 'USER_DISABLED': messageToShow = 'The user account has been disabled by an administrator!';break;
       default : messageToShow = 'Something went wrong!'; 
     }
-    
-    // after handling message throw error with this
+     
     throw new Error(messageToShow)
   }
  
   const {idToken, localId, expiresIn} = await response.json(); 
   const transformedExpiresIn =  parseInt(expiresIn)*1000;
 
-  dispatch(authenticate(idToken, localId, transformedExpiresIn));
-  // define expiration date of token
-  const expDate = new Date(new Date().getTime() + transformedExpiresIn);  
-  // store to device 
+  dispatch(authenticate(idToken, localId, transformedExpiresIn)); 
+  const expDate = new Date(new Date().getTime() + transformedExpiresIn);   
   saveDataToStorage(idToken, localId, expDate)
 };
 
@@ -101,11 +95,8 @@ export const logout = () => {
   clearLogoutTimer();
   AsyncStorage.removeItem('userData');
   return { type: LOGOUT}; 
-}
+} 
 
-// HELPER FUNCTIONS -----
-
-// SAVE DATA TO DEVICE STORAGE
 const saveDataToStorage = (token, userId, expDate) => {
   AsyncStorage.setItem('userData',JSON.stringify({
     token,
@@ -113,8 +104,7 @@ const saveDataToStorage = (token, userId, expDate) => {
     expiryDate: expDate.toISOString()
   }))
 }
-
-// LOGOUT HANDLERS  
+ 
 const clearLogoutTimer = ()=> {
   if(timerId){
     clearTimeout(timerId)

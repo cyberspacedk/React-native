@@ -11,16 +11,14 @@ import {fetchProducts} from '../../store/actions/products';
 
 import Colors from '../../constatnts/Colors';
 
-const ProductsOverviewScreen = ({navigation}) => {
-  // handling async requests
+const ProductsOverviewScreen = ({navigation}) => { 
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const products = useSelector(state=> state.products.avalaibleProducts);   
   const dispatch = useDispatch(); 
-
-  // async func for getting products
+ 
   const loadProducts = useCallback( async ()=> { 
     setIsError(false);
     setIsRefreshing(true);
@@ -31,16 +29,12 @@ const ProductsOverviewScreen = ({navigation}) => {
     }
     setIsRefreshing(false);
   }, [dispatch, setIsLoading, setIsError])
-
-  // load products every time when navigation is change
-  useEffect(()=>{
-  // store to constant event listener
-   const willFocusSubcscription =  navigation.addListener('willFocus',  loadProducts); 
-  //  unsubscribe from event when component unmounts
+ 
+  useEffect(()=>{  
+   const willFocusSubcscription =  navigation.addListener('willFocus',  loadProducts);  
     return ()=> willFocusSubcscription.remove();
   },[loadProducts])
-
-  // load products when component mounts
+ 
   useEffect(()=>{ 
     setIsLoading(true);
     loadProducts().then(()=> setIsLoading(false))

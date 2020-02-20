@@ -30,9 +30,7 @@ const OrdersScreen = () => {
       </View>
     )
   }
-
-    // handling empty orders screen. 
-  // in future will be nice add separate component (with image)
+ 
   if(orders.length === 0){
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
